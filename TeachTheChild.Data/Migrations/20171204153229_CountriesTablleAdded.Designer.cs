@@ -11,9 +11,10 @@ using TeachTheChild.Data;
 namespace TeachTheChild.Data.Migrations
 {
     [DbContext(typeof(TeachTheChildDbContext))]
-    partial class TeachTheChildDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171204153229_CountriesTablleAdded")]
+    partial class CountriesTablleAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,10 +133,6 @@ namespace TeachTheChild.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Flag");
-
-                    b.Property<string>("FlagUrl");
 
                     b.Property<string>("Name")
                         .IsRequired()

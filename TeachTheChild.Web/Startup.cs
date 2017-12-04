@@ -1,19 +1,17 @@
 ﻿namespace TeachTheChild.Web
 {
+    using AutoMapper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using AutoMapper;
-    using System.Reflection;
 
+    using TeachTheChild.Data;
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Contracts;
     using TeachTheChild.Services.Implementations;
-    using TeachTheChild.Web.Data;
-    using TeachTheChild.Web.Services;
     using TeachTheChild.Web.Infrastructure.Extensions;
 
     public class Startup
@@ -37,7 +35,8 @@
 
             services.AddTransient<IEmailService, EmailService>();
             services.AddDomainServices();
-            // services.AddAutoMapperCustomConfiguration();
+
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddAutoMapper();
 
@@ -45,8 +44,10 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbInitializer dbInitializer)
         {
+            app.UseDatabaseMigration();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -61,6 +62,8 @@
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            dbInitializer.Initialize().Wait();
 
             app.UseMvc(routes =>
             {

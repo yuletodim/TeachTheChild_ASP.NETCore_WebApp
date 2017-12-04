@@ -5,9 +5,9 @@
 
     using TeachTheChild.Services.Contracts;
     using TeachTheChild.Services.Models.Users;
-    using TeachTheChild.Web.Data;
     using AutoMapper.QueryableExtensions;
     using System.Linq;
+    using TeachTheChild.Data;
 
     public class UsersService : IUsersService
     {

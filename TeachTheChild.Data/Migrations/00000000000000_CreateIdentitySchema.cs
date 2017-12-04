@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Web.Data.Migrations
+﻿namespace TeachTheChild.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Metadata;
     using Microsoft.EntityFrameworkCore.Migrations;

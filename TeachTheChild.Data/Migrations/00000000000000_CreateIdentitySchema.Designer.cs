@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Web.Data.Migrations
+﻿namespace TeachTheChild.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -123,7 +123,7 @@
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TeachTheChild.Web.Models.User", b =>
+            modelBuilder.Entity("test.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -182,7 +182,7 @@
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TeachTheChild.Web.Models.User")
+                    b.HasOne("test.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -190,7 +190,7 @@
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TeachTheChild.Web.Models.User")
+                    b.HasOne("test.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -203,7 +203,7 @@
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TeachTheChild.Web.Models.User")
+                    b.HasOne("test.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

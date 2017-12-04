@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Web.Data
+﻿namespace TeachTheChild.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -11,8 +11,16 @@
         {
         }
 
+        public DbSet<Country> Countries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+                .Entity<User>()
+                .HasOne(u => u.Country)
+                .WithMany(c => c.Users)
+                .HasForeignKey(u => u.CountryId);
+
             base.OnModelCreating(builder);
         }
     }
