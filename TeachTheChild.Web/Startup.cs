@@ -6,12 +6,15 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using AutoMapper;
+    using System.Reflection;
 
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Contracts;
     using TeachTheChild.Services.Implementations;
     using TeachTheChild.Web.Data;
     using TeachTheChild.Web.Services;
+    using TeachTheChild.Web.Infrastructure.Extensions;
 
     public class Startup
     {
@@ -32,8 +35,11 @@
                 .AddEntityFrameworkStores<TeachTheChildDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
             services.AddTransient<IEmailService, EmailService>();
+            services.AddDomainServices();
+            // services.AddAutoMapperCustomConfiguration();
+
+            services.AddAutoMapper();
 
             services.AddMvc();
         }
