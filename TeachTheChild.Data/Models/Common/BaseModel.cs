@@ -2,7 +2,7 @@
 {
     using System;
 
-    public abstract class BaseModel
+    public abstract class BaseModel : IAuditInfo
     {
         public int Id { get; set; }
 
