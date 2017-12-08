@@ -3,6 +3,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using System.Linq;
     using System.Reflection;
+
     using TeachTheChild.Services.Contracts;
 
     public static class ServiceCollectionExtensions

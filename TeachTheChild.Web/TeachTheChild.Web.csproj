@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TeachTheChild.Common\TeachTheChild.Common.csproj" />
     <ProjectReference Include="..\TeachTheChild.Data\TeachTheChild.Data.csproj" />
     <ProjectReference Include="..\TeachTheChild.Services\TeachTheChild.Services.csproj" />
   </ItemGroup>

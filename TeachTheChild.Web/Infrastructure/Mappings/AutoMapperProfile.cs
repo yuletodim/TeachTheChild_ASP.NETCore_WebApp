@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using AutoMapper;
 
-    using TeachTheChild.Services.Mappings;
+    using TeachTheChild.Common.Mappings;
     using TeachTheChild.Web.Infrastructure.Constants;
 
     public class AutoMapperProfile : Profile

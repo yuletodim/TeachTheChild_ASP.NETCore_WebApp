@@ -1,7 +1,7 @@
 ﻿namespace TeachTheChild.Services.Models.Users
 {
-    using TeachTheChild.Data.Models;
-    using TeachTheChild.Services.Mappings;
+    using Data.Models;
+    using Common.Mappings;
 
     public class UserServiceModel : IMapFrom<User>
     {

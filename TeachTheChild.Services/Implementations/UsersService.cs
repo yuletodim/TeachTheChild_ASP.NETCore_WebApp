@@ -1,13 +1,12 @@
 ﻿namespace TeachTheChild.Services.Implementations
 {
+    using AutoMapper.QueryableExtensions;
     using System.Collections.Generic;
-    using AutoMapper;
+    using System.Linq;
 
+    using TeachTheChild.Data;
     using TeachTheChild.Services.Contracts;
     using TeachTheChild.Services.Models.Users;
-    using AutoMapper.QueryableExtensions;
-    using System.Linq;
-    using TeachTheChild.Data;
 
     public class UsersService : IUsersService
     {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using TeachTheChild.Web.Models;
-using TeachTheChild.Services.Contracts;
-
-namespace TeachTheChild.Web.Controllers
+﻿namespace TeachTheChild.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+
+    using TeachTheChild.Services.Contracts;
+    using TeachTheChild.Web.Models;
+
     public class HomeController : Controller
     {
         private readonly IUsersService usersService;

@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Services.Mappings
+﻿namespace TeachTheChild.Common.Mappings
 {
     using AutoMapper;
 
