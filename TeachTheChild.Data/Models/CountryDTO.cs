@@ -1,11 +1,11 @@
 ﻿namespace TeachTheChild.Data.Models
 {
-    internal class CountryDTO
+    public class CountryDTO
     {
-        internal string name { get; set; }
+        public string name { get; set; }
 
-        internal string alpha2Code { get; set; }
+        public string alpha2Code { get; set; }
 
-        internal string flag { get; set; }
+        public string flag { get; set; }
     }
 }

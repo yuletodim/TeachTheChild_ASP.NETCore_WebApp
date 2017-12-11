@@ -29,22 +29,22 @@
 
         public async Task Initialize()
         {
-            //this.dbContext.Database.EnsureCreated();
+            this.dbContext.Database.EnsureCreated();
 
-            //if (!this.dbContext.Roles.Any())
-            //{
-            //    await this.SeedRolesAsync();
-            //}
+            if (!this.dbContext.Roles.Any())
+            {
+                await this.SeedRolesAsync();
+            }
 
-            //if (!this.dbContext.Countries.Any())
-            //{
-            //    await this.SeedCountriesAsync();
-            //}
+            if (!this.dbContext.Countries.Any())
+            {
+                await this.SeedCountriesAsync();
+            }
 
-            //if (!this.dbContext.Languages.Any())
-            //{
-            //    await this.SeedLanguagesAsync();
-            //}
+            if (!this.dbContext.Languages.Any())
+            {
+                await this.SeedLanguagesAsync();
+            }
         }
 
         private async Task SeedRolesAsync()

@@ -3,13 +3,19 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using TeachTheChild.Data;
 
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
         [Display(Name = "Name")]
+        [MinLength(DataConstants.UserNameMinLength)]
+        [MaxLength(DataConstants.UserNameMaxLength)]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [EmailAddress]
@@ -28,12 +34,9 @@
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Country")]
         public int CountryId { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
-
-        public int LanguageId { get; set; }
-
-        public IEnumerable<SelectListItem> Languages { get; set; }
     }
 }

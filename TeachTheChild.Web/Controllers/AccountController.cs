@@ -13,6 +13,9 @@
     using TeachTheChild.Services.Contracts;
     using TeachTheChild.Web.Models.Account;
     using TeachTheChild.Web.Services;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [Authorize]
     [Route("[controller]/[action]")]
@@ -22,17 +25,23 @@
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailService _emailService;
         private readonly ILogger _logger;
+        private readonly ICountriesService countriesService;
+        private readonly ILanguagesService languagesService;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailService emailService,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ICountriesService countriesService,
+            ILanguagesService languagesService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _logger = logger;
+            this.countriesService = countriesService;
+            this.languagesService = languagesService;
         }
 
         [TempData]
@@ -204,10 +213,28 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public async Task<IActionResult> Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            var model = new RegisterViewModel
+            {
+                Countries = await this.GetCountriesListAsync()
+            };
+
+            return View(model);
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetCountriesListAsync()
+        {
+            var allCountries = await this.countriesService.GetAllAsync();
+            var countriesList =  allCountries.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToList();
+
+            return countriesList;
         }
 
         [HttpPost]
@@ -218,7 +245,27 @@
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email };
+                int languageId;
+                var langName = Request.Cookies["langCookie"];
+                if (langName != null)
+                {
+                    languageId = await this.languagesService.GetLanguageId(langName);
+                }
+                else
+                {
+                    languageId = await this.languagesService.GetDefaultLanguageId();
+                }
+
+                var user = new User
+                {
+                    UserName = model.Username,
+                    Email = model.Email,
+                    Name = model.Name,
+                    CountryId = model.CountryId,
+                    LanguageId = languageId,
+                    CreatedOn = DateTime.UtcNow
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -236,6 +283,7 @@
             }
 
             // If we got this far, something failed, redisplay form
+            model.Countries = await this.GetCountriesListAsync();
             return View(model);
         }
 
