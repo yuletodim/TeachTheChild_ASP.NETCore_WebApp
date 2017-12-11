@@ -29,18 +29,22 @@
 
         public async Task Initialize()
         {
-            this.dbContext.Database.EnsureCreated();
+            //this.dbContext.Database.EnsureCreated();
 
-            if (!this.dbContext.Roles.Any())
-            {
-                await this.SeedRolesAsync();
-            }
+            //if (!this.dbContext.Roles.Any())
+            //{
+            //    await this.SeedRolesAsync();
+            //}
 
-            if (!this.dbContext.Countries.Any())
-            {
-                await this.SeedCountries();
-            }
+            //if (!this.dbContext.Countries.Any())
+            //{
+            //    await this.SeedCountriesAsync();
+            //}
 
+            //if (!this.dbContext.Languages.Any())
+            //{
+            //    await this.SeedLanguagesAsync();
+            //}
         }
 
         private async Task SeedRolesAsync()
@@ -61,7 +65,16 @@
             }
         }
 
-        private async Task SeedCountries()
+        private async Task SeedLanguagesAsync()
+        {
+            await this.dbContext.AddAsync(new Language { Name = DataConstants.EnglishLanguage, Culture = DataConstants.EnglishCulture});
+            await this.dbContext.AddAsync(new Language { Name = DataConstants.BulgarianLanguage, Culture = DataConstants.BulgarianCulture });
+            await this.dbContext.AddAsync(new Language { Name = DataConstants.SpanishLanguage, Culture = DataConstants.SpanishCulture });
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        private async Task SeedCountriesAsync()
         {
             var httpClient = new HttpClient();
             var response = await httpClient.GetAsync(CountriesApiUrl);
@@ -77,7 +90,7 @@
                         {
                             Name = country.name,
                             Flag = country.alpha2Code,
-                            FlagUrl = country.flag
+                            FlagUrl = country.flag.ToLower()
                         });
                 }
 
@@ -85,14 +98,4 @@
             }
         }
     }
-
-    public class CountryDTO
-    {
-        public string name { get; set; }
-
-        public string alpha2Code { get; set; }
-
-        public string flag { get; set; }
-    }
-
 }

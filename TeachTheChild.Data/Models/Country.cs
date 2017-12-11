@@ -2,11 +2,10 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using TeachTheChild.Data.Models.Common;
 
-    public class Country
+    public class Country : BaseModel
     {
-        public int Id { get; set; }
-
         [Required]
         [MinLength(DataConstants.CountryMinLength)]
         [MaxLength(DataConstants.CountryMaxLength)]

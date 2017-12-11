@@ -1,9 +1,16 @@
 ﻿namespace TeachTheChild.Web.Models.Account
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class RegisterViewModel
     {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -19,5 +26,14 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public int CountryId { get; set; }
+
+        public IEnumerable<SelectListItem> Countries { get; set; }
+
+        public int LanguageId { get; set; }
+
+        public IEnumerable<SelectListItem> Languages { get; set; }
     }
 }

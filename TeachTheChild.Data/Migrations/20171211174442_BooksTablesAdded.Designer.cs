@@ -11,8 +11,8 @@ using TeachTheChild.Data;
 namespace TeachTheChild.Data.Migrations
 {
     [DbContext(typeof(TeachTheChildDbContext))]
-    [Migration("20171205171229_BooksTableAdded")]
-    partial class BooksTableAdded
+    [Migration("20171211174442_BooksTablesAdded")]
+    partial class BooksTablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,7 +129,184 @@ namespace TeachTheChild.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TeachTheChild.Data.Models.Book", b =>
+            modelBuilder.Entity("TeachTheChild.Data.Models.Answers.ArticleCommentAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ArticleCommentId");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleCommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ArticleCommentAnswers");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Answers.BookCommentAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BookCommentId");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookCommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BookCommentAnswers");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Comments.ArticleComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ArticleId");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ArticleComments");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Comments.BookComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BookId");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BookComments");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Flag");
+
+                    b.Property<string>("FlagUrl");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Culture")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Materials.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Materials.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -142,33 +319,23 @@ namespace TeachTheChild.Data.Migrations
 
                     b.Property<string>("Descritpion")
                         .IsRequired()
-                        .HasMaxLength(1000);
+                        .HasMaxLength(10000);
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Flag");
-
-                    b.Property<string>("FlagUrl");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("TeachTheChild.Data.Models.User", b =>
@@ -183,14 +350,20 @@ namespace TeachTheChild.Data.Migrations
 
                     b.Property<int>("CountryId");
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<int>("LanguageId");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -218,6 +391,8 @@ namespace TeachTheChild.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -275,11 +450,82 @@ namespace TeachTheChild.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("TeachTheChild.Data.Models.Answers.ArticleCommentAnswer", b =>
+                {
+                    b.HasOne("TeachTheChild.Data.Models.Comments.ArticleComment", "ArticleComment")
+                        .WithMany("Answers")
+                        .HasForeignKey("ArticleCommentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TeachTheChild.Data.Models.User", "User")
+                        .WithMany("ArticleCommentAnswers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Answers.BookCommentAnswer", b =>
+                {
+                    b.HasOne("TeachTheChild.Data.Models.Comments.BookComment", "BookComment")
+                        .WithMany("Answers")
+                        .HasForeignKey("BookCommentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TeachTheChild.Data.Models.User", "User")
+                        .WithMany("BookCommentAnswers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Comments.ArticleComment", b =>
+                {
+                    b.HasOne("TeachTheChild.Data.Models.Materials.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TeachTheChild.Data.Models.User", "User")
+                        .WithMany("ArticleComments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Comments.BookComment", b =>
+                {
+                    b.HasOne("TeachTheChild.Data.Models.Materials.Book", "Book")
+                        .WithMany("Comments")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TeachTheChild.Data.Models.User", "User")
+                        .WithMany("BookComments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Materials.Article", b =>
+                {
+                    b.HasOne("TeachTheChild.Data.Models.User", "User")
+                        .WithMany("Articles")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("TeachTheChild.Data.Models.Materials.Book", b =>
+                {
+                    b.HasOne("TeachTheChild.Data.Models.User", "User")
+                        .WithMany("Books")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("TeachTheChild.Data.Models.User", b =>
                 {
                     b.HasOne("TeachTheChild.Data.Models.Country", "Country")
                         .WithMany("Users")
                         .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TeachTheChild.Data.Models.Language", "Language")
+                        .WithMany("Users")
+                        .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

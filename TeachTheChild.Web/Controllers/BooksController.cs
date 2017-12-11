@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using TeachTheChild.Data.Models;
+    using TeachTheChild.Data.Models.Materials;
     using TeachTheChild.Services.Contracts;
 
     public class BooksController : Controller

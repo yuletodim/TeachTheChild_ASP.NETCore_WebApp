@@ -6,7 +6,7 @@
     using TeachTheChild.Services.Contracts;
     using TeachTheChild.Web.Models;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IUsersService usersService;
 

@@ -7,7 +7,6 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-
     using TeachTheChild.Data;
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Contracts;
@@ -40,6 +39,8 @@
 
             services.AddAutoMapper();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddMvc();
         }
 
@@ -60,6 +61,8 @@
             }
 
             app.UseStaticFiles();
+
+            app.UseRequestLocalizationExtended();
 
             app.UseAuthentication();
 

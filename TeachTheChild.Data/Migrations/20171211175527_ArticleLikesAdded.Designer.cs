@@ -11,9 +11,10 @@ using TeachTheChild.Data;
 namespace TeachTheChild.Data.Migrations
 {
     [DbContext(typeof(TeachTheChildDbContext))]
-    partial class TeachTheChildDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171211175527_ArticleLikesAdded")]
+    partial class ArticleLikesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,36 +348,6 @@ namespace TeachTheChild.Data.Migrations
                     b.ToTable("ArticleLikes");
                 });
 
-            modelBuilder.Entity("TeachTheChild.Data.Models.Likes.BookLike", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("BookId");
-
-                    b.Property<bool>("IsLike");
-
-                    b.HasKey("UserId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("BookLikes");
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Likes.VideoLike", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("VideoId");
-
-                    b.Property<bool>("IsLike");
-
-                    b.HasKey("UserId", "VideoId");
-
-                    b.HasIndex("VideoId");
-
-                    b.ToTable("VideoLikes");
-                });
-
             modelBuilder.Entity("TeachTheChild.Data.Models.Materials.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -670,32 +641,6 @@ namespace TeachTheChild.Data.Migrations
                     b.HasOne("TeachTheChild.Data.Models.User", "User")
                         .WithMany("ArticleLikes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Likes.BookLike", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.Materials.Book", "Book")
-                        .WithMany("Likes")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("BookLikes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Likes.VideoLike", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("VideoLikes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TeachTheChild.Data.Models.Materials.Video", "Video")
-                        .WithMany("Likes")
-                        .HasForeignKey("VideoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
