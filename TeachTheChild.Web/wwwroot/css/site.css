@@ -1,6 +1,27 @@
-﻿/*Custom Yulia theme*/
+﻿/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
-/*body {
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+body {
+    padding-top: 120px;
+    color: #777;
     font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
     background: url('../images/wall.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -17,8 +38,181 @@ h5,
 h6 {
     text-transform: uppercase;
     font-family: "Josefin Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
+    font-weight: 600;https://localhost:44359/Videos
     letter-spacing: 1px;
+}
+
+/*Navbar - custom Yulia*/
+.navbar-default {
+    border: none;
+    background: rgba(255,255,255,0.9);
+}
+
+.navbar-nav {
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.navbar.navbar-default {
+    border: 0;
+    border-radius: 0;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+    .navbar.navbar-default .navbar-toggle {
+        margin-top: 53px;
+    }
+
+.navbar.navbar-default .navbar-brand {
+    padding: 20px 0 0 0;
+    margin-top: -40px;
+    margin-right: 15px;
+    max-width: 180px;
+}
+
+@media only screen and (min-width: 768px) {
+    #main-menu.navbar-default {
+        background: rgba(255, 255, 255, 0.9);
+        -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    #main-menu.navbar-default .navbar-nav > li > a {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    #main-menu.navbar-default .navbar-nav > li.active > a,
+    #main-menu.navbar-default .navbar-nav > li.open > a,
+    #main-menu.navbar-default .navbar-nav > li:hover > a {
+        background: transparent;
+        padding-bottom: 17px;
+        border-bottom: 3px solid #45aed6;
+    }
+
+    #main-menu.navbar-default .dropdown-menu {
+        padding: 0 20px;
+        min-width: 150px;
+        background-color: rgba(255,255,255,0.9);
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        background-clip: inherit;
+    }
+
+    #main-menu.navbar-default .dropdown-menu > li {
+        border-left: 3px solid transparent;
+        margin-left: -20px;
+        padding-left: 17px;
+        margin-right: -20px;
+        padding-right: 20px;
+        -webit-transition: border-color 400ms;
+        transition: border-color 400ms;
+    }
+
+    #main-menu.navbar-default .dropdown-menu > li > a {
+        border-top: 1px solid #404455;
+        padding: 15px 0;
+    }
+
+    #main-menu.navbar-default .dropdown-menu > li:first-child > a {
+        border-top: 0;
+    }
+
+    #main-menu.navbar-default .dropdown-menu > li.active,
+    #main-menu.navbar-default .dropdown-menu > li.open,
+    #main-menu.navbar-default .dropdown-menu > li:hover {
+        border-left-color: #45aed6;
+    }
+
+    #main-menu.navbar-default .dropdown-menu > li.active > a,
+    #main-menu.navbar-default .dropdown-menu > li.open > a,
+    #main-menu.navbar-default .dropdown-menu > li:hover > a {
+        color: #45aed6;
+        background-color: transparent;
+    }
+
+    #main-menu.navbar-default .navbar-nav > li:hover > a,
+    #main-menu.navbar-default .dropdown-menu > li:hover {
+        background: rgba(231,230,230,0.5);
+    }
+}
+
+@media (min-width: 990px) and (max-width: 1200px) {
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+    .collapse.in {
+        display: block !important;
+    }
+
+    .navbar-header .collapse, .navbar-toggle {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .navbar-header {
+        float: none;
+    }
+
+    body {
+        padding-top: 140px;
+    }
+
+    .navbar-nav {
+        font-weight: 300;
+    }
+}
+
+@media (max-width: 990px) {
+    .navbar-header {
+        float: none;
+    }
+
+    .navbar-toggle {
+        display: block;
+    }
+
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+    .collapse.in {
+        display: block !important;
+    }
+
+    .navbar-nav {
+        float: none !important;
+    }
+
+    .navbar-nav > li {
+        float: none;
+    }
+
+    .navbar-nav > li > a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+/*Box style - custom Yulia*/
+.box {
+    margin-bottom: 20px;
+    padding: 30px 15px;
+    background: rgba(255,255,255,0.9);
+}
+
+@media screen and (min-width:700px) {
+    .box:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
 }
 
 p {
@@ -27,102 +221,26 @@ p {
     color: #000;
 }
 
-hr {
-    max-width: 400px;
-    border-color: #999999;
-}
-
-.navbar-nav {
-    text-transform: uppercase;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
-.img-full {
-    min-width: 100%;
-}
-
-.brand-before,
-.brand-name {
-    text-transform: capitalize;
-}
-
-.brand-before {
-    margin: 15px 0;
-}
-
-.brand-name {
-    margin: 0;
-    font-size: 4em;
-}*/
-
 .tagline-divider {
     margin: 15px auto 3px;
     max-width: 250px;
     border-color: #999999;
 }
 
-.box {
-    margin-bottom: 20px;
-    padding: 30px 15px;
-    background: #fff;
-    background: rgba(255,255,255,0.9);
+hr {
+    max-width: 400px;
+    border-color: #999999;
+}
+
+.img-full {
+    min-width: 100%;
 }
 
 footer {
-    background: #fff;
     background: rgba(255,255,255,0.9);
 }
 
 footer p {
     margin: 0;
-    padding: 50px 0;
-}
-
-.navbar-brand{
-    padding: 0;
-}
-
-@media screen and (min-width:1200px) {
-    .box:after {
-        content: '';
-        display: table;
-        clear: both;
-    }
-}
-
-body {
-    padding-top: 100px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+    padding: 30px 0;
 }
