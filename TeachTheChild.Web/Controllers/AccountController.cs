@@ -4,18 +4,18 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.Extensions.Logging;
     using System;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
-    using TeachTheChild.Data.Models;
-    using TeachTheChild.Services.Contracts;
-    using TeachTheChild.Web.Models.Account;
-    using TeachTheChild.Web.Services;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using TeachTheChild.Data.Models;
+    using TeachTheChild.Services.Contracts;
+    using TeachTheChild.Web.Infrastructure.WebServices;
+    using TeachTheChild.Web.Infrastructure.Extensions;
+    using TeachTheChild.Web.Models.Account;
 
     [Authorize]
     [Route("[controller]/[action]")]
@@ -224,19 +224,6 @@
             return View(model);
         }
 
-        private async Task<IEnumerable<SelectListItem>> GetCountriesListAsync()
-        {
-            var allCountries = await this.countriesService.GetAllAsync();
-            var countriesList =  allCountries.Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                })
-                .ToList();
-
-            return countriesList;
-        }
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -245,16 +232,7 @@
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                int languageId;
-                var langName = Request.Cookies["langCookie"];
-                if (langName != null)
-                {
-                    languageId = await this.languagesService.GetLanguageId(langName);
-                }
-                else
-                {
-                    languageId = await this.languagesService.GetDefaultLanguageId();
-                }
+                int languageId = await this.GetCurrentLanguage();
 
                 var user = new User
                 {
@@ -275,9 +253,7 @@
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailService.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(nameof(HomeController.Index));
                 }
                 AddErrors(result);
             }
@@ -356,7 +332,18 @@
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new User { UserName = model.Email, Email = model.Email };
+
+                int languageId = await this.GetCurrentLanguage();
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Name = info.Principal.Identity.Name,
+                    LanguageId = languageId,
+                    CreatedOn = DateTime.UtcNow,
+                    EmailConfirmed = true
+                };
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -410,7 +397,7 @@
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                    return View(model);
                 }
 
                 // For more information on how to enable account confirmation and password reset please
@@ -502,6 +489,32 @@
             else
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GetCountriesListAsync()
+        {
+            var allCountries = await this.countriesService.GetAllAsync();
+            var countriesList = allCountries.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            })
+                .ToList();
+
+            return countriesList;
+        }
+
+        private async Task<int> GetCurrentLanguage()
+        {
+            var langName = Request.Cookies["langCookie"];
+            if (langName != null)
+            {
+                return await this.languagesService.GetLanguageId(langName);
+            }
+            else
+            {
+                return await this.languagesService.GetDefaultLanguageId();
             }
         }
 

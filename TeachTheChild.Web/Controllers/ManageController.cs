@@ -1,20 +1,19 @@
 ﻿namespace TeachTheChild.Web.Controllers
 {
-    using System;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-
+    using System;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
     using TeachTheChild.Data.Models;
+    using TeachTheChild.Web.Infrastructure.WebServices;
+    using TeachTheChild.Web.Infrastructure.Extensions;
     using TeachTheChild.Web.Models.Manage;
-    using TeachTheChild.Web.Services;
-    using TeachTheChild.Services.Contracts;
 
     [Authorize]
     [Route("[controller]/[action]")]

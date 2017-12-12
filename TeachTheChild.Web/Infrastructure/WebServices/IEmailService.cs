@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Services.Contracts
+﻿namespace TeachTheChild.Web.Infrastructure.WebServices
 {
     using System.Threading.Tasks;
 

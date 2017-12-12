@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TeachTheChild.Web.Controllers;
-
-namespace Microsoft.AspNetCore.Mvc
+namespace TeachTheChild.Web.Infrastructure.Extensions
 {
+    using Microsoft.AspNetCore.Mvc;
+    using TeachTheChild.Web.Controllers;
+
     public static class UrlHelperExtensions
     {
         public static string EmailConfirmationLink(this IUrlHelper urlHelper, string userId, string code, string scheme)

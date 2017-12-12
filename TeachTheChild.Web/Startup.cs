@@ -9,9 +9,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using TeachTheChild.Data;
     using TeachTheChild.Data.Models;
-    using TeachTheChild.Services.Contracts;
-    using TeachTheChild.Services.Implementations;
     using TeachTheChild.Web.Infrastructure.Extensions;
+    using TeachTheChild.Web.Infrastructure.WebServices;
 
     public class Startup
     {
@@ -28,9 +27,24 @@
             services.AddDbContext<TeachTheChildDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(config => 
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddEntityFrameworkStores<TeachTheChildDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication()
+                .AddFacebook(fbOptions => 
+                {
+                    fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    fbOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                })
+                .AddGoogle(googleOptions => 
+                {
+                    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                });
 
             services.AddTransient<IEmailService, EmailService>();
             services.AddDomainServices();

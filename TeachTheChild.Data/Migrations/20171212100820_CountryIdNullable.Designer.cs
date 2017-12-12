@@ -11,9 +11,10 @@ using TeachTheChild.Data;
 namespace TeachTheChild.Data.Migrations
 {
     [DbContext(typeof(TeachTheChildDbContext))]
-    partial class TeachTheChildDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171212100820_CountryIdNullable")]
+    partial class CountryIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
