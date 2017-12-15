@@ -13,4 +13,8 @@
     <ProjectReference Include="..\TeachTheChild.Data\TeachTheChild.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Moderator\Models\" />
+  </ItemGroup>
+
 </Project>

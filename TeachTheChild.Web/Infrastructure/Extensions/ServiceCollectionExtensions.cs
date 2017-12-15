@@ -3,8 +3,10 @@
     using Microsoft.Extensions.DependencyInjection;
     using System.Linq;
     using System.Reflection;
+    using TeachTheChild.Data;
 
-    using TeachTheChild.Services.Contracts;
+    using TeachTheChild.Services.Global.Contracts;
+    using TeachTheChild.Web.Infrastructure.WebServices;
 
     public static class ServiceCollectionExtensions
     {
@@ -22,24 +24,9 @@
                 .ToList()
                 .ForEach(s => services.AddTransient(s.Interface, s.Implementaion));
 
-            return services;
-        }
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
-        public static IServiceCollection AddAutoMapperCustomConfiguration(this IServiceCollection services)
-        {
-            //var mappingProfile = new AutoMapperProfile(
-            //        Assembly.GetExecutingAssembly(),
-            //        Assembly.GetAssembly(typeof(IService)));
-
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.AddProfile(mappingProfile);
-            //});
-
-            //var mapper = config.CreateMapper();
-
-            //services.AddSingleton(mapper);
-            //services.AddMvc();
+            services.AddTransient<IEmailService, EmailService>();
 
             return services;
         }

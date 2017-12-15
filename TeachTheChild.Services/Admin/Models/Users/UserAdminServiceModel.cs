@@ -1,9 +1,9 @@
-﻿namespace TeachTheChild.Services.Models.Users
+﻿namespace TeachTheChild.Services.Admin.Models.Users
 {
     using Data.Models;
     using Common.Mappings;
 
-    public class UserServiceModel : IMapFrom<User>
+    public class UserAdminServiceModel : IMapFrom<User>
     {
         public string Id { get; set; }
 

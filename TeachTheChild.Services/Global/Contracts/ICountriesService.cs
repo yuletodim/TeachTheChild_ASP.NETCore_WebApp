@@ -1,8 +1,8 @@
-﻿namespace TeachTheChild.Services.Contracts
+﻿namespace TeachTheChild.Services.Global.Contracts
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using TeachTheChild.Services.Models;
+    using TeachTheChild.Services.Global.Models;
 
     public interface ICountriesService
     {

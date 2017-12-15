@@ -1,10 +1,10 @@
-﻿namespace TeachTheChild.Services.Contracts
+﻿namespace TeachTheChild.Services.Moderator.Contracts
 {
     using System.Threading.Tasks;
     using TeachTheChild.Data.Models;
     using TeachTheChild.Data.Models.Books;
 
-    public interface IBooksService
+    public interface IBooksModeratorService
     {
         //Task<bool> AddBook(Book book);
     }

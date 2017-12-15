@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -46,24 +47,26 @@
                     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 });
 
-            services.AddTransient<IEmailService, EmailService>();
+            
             services.AddDomainServices();
-
-            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddAutoMapper();
 
+            services.AddRouting(options => options.LowercaseUrls = true);
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDbInitializer dbInitializer)
         {
             app.UseDatabaseMigration();
 
-            //dbInitializer.Initialize().Wait();
+            dbInitializer.Initialize().Wait();
 
             if (env.IsDevelopment())
             {
@@ -84,6 +87,20 @@
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "users",
+                    template: "users/{username}",
+                    defaults: new { controller = "Users", action = "Profile" });
+
+                routes.MapRoute(
+                    name: "titles",
+                    template: "{area:exists}/{controller=Home}/{id}/{title}",
+                    defaults: new { action = "Details" });
+
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

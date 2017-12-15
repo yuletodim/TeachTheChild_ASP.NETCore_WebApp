@@ -1,12 +1,12 @@
-﻿namespace TeachTheChild.Services.Implementations
+﻿namespace TeachTheChild.Services.Global.Implementations
 {
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TeachTheChild.Data;
-    using TeachTheChild.Services.Contracts;
-    using TeachTheChild.Services.Models;
+    using TeachTheChild.Services.Global.Contracts;
+    using TeachTheChild.Services.Global.Models;
 
     public class CountriesService : ICountriesService
     {

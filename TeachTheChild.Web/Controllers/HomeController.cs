@@ -2,31 +2,37 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-
-    using TeachTheChild.Services.Contracts;
+    using System.Threading.Tasks;
+    using TeachTheChild.Services.Global.Contracts;
     using TeachTheChild.Web.Models;
+    using TeachTheChild.Web.Models.Home;
 
     public class HomeController : BaseController
     {
-        private readonly IUsersService usersService;
+        private readonly IArticlesService articlesService;
+        private readonly IBooksService booksService;
+        private readonly IVideosService videosService;
 
-        public HomeController(IUsersService usersService)
+        public HomeController(
+            IArticlesService articlesService,
+            IBooksService booksService,
+            IVideosService videosService)
         {
-            this.usersService = usersService;
+            this.articlesService = articlesService;
+            this.booksService = booksService;
+            this.videosService = videosService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = this.usersService.GetAll();
+            var model = new IndexViewModel
+            {
+                Articles = await this.articlesService.GetLastTree(),
+                Books = await this.booksService.GetLastTree(),
+                Video = await this.videosService.GetMostLiked()
+            };
 
-            return View(users);
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            return View(model);
         }
 
         public IActionResult Contact()

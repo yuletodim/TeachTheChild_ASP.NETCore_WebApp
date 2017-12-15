@@ -12,11 +12,11 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     using TeachTheChild.Data.Models;
-    using TeachTheChild.Services.Contracts;
     using TeachTheChild.Web.Infrastructure.WebServices;
     using TeachTheChild.Web.Infrastructure.Extensions;
     using TeachTheChild.Web.Models.Account;
     using TeachTheChild.Web.Infrastructure.Constants;
+    using TeachTheChild.Services.Global.Contracts;
 
     [Authorize]
     [Route("[controller]/[action]")]

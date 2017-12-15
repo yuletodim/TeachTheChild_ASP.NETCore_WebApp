@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Services.Models
+﻿namespace TeachTheChild.Services.Global.Models
 {
     using TeachTheChild.Common.Mappings;
     using TeachTheChild.Data.Models;
