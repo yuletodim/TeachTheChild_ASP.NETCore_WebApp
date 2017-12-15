@@ -1,0 +1,35 @@
+﻿@inject SignInManager<User> SignInManager
+
+@{
+    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+}
+
+<div class="box">
+    <section>
+        <h4>Or sign in with</h4>
+        <hr />
+        <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+            <div>
+                <p>
+                    @foreach (var provider in loginProviders)
+                    {
+                        if (provider.Name == "Facebook")
+                        {
+                            <button type="submit" class="btn btn-block btn-social btn-facebook" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                <span class="fa fa-facebook"></span>@provider.Name
+                            </button>
+                        }
+                        else if (provider.Name == "Google")
+                        {
+                            <button type="submit" class="btn btn-block btn-social btn-google" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                <span class="fa fa-google"></span>@provider.Name
+                            </button>
+                        }
+
+                    }
+                </p>
+            </div>
+        </form>
+
+    </section>
+</div>  

@@ -63,6 +63,8 @@
         {
             app.UseDatabaseMigration();
 
+            //dbInitializer.Initialize().Wait();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -79,8 +81,6 @@
             app.UseRequestLocalizationExtended();
 
             app.UseAuthentication();
-
-            dbInitializer.Initialize().Wait();
 
             app.UseMvc(routes =>
             {

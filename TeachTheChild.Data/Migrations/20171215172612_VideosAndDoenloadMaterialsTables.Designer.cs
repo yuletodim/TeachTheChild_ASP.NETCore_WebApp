@@ -12,9 +12,10 @@ using TeachTheChild.Data.Models.DownloadMaterials;
 namespace TeachTheChild.Data.Migrations
 {
     [DbContext(typeof(TeachTheChildDbContext))]
-    partial class TeachTheChildDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171215172612_VideosAndDoenloadMaterialsTables")]
+    partial class VideosAndDoenloadMaterialsTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

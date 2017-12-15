@@ -15,6 +15,6 @@
 
         public string FlagUrl { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public List<User> Users { get; set; } = new List<User>();
     }
 }

@@ -16,6 +16,7 @@
     using TeachTheChild.Web.Infrastructure.WebServices;
     using TeachTheChild.Web.Infrastructure.Extensions;
     using TeachTheChild.Web.Models.Account;
+    using TeachTheChild.Web.Infrastructure.Constants;
 
     [Authorize]
     [Route("[controller]/[action]")]
@@ -253,6 +254,8 @@
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailService.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
+                    TempData.AddSuccessMessage(WebConstants.RegisterSuccess);
+
                     return RedirectToLocal(nameof(HomeController.Index));
                 }
                 AddErrors(result);
@@ -396,12 +399,10 @@
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
+                    TempData.AddErrorMessage(WebConstants.ForgotPasswordError);
                     return View(model);
                 }
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
                 await _emailService.SendEmailAsync(model.Email, "Reset Password",
@@ -409,7 +410,8 @@
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
-            // If we got this far, something failed, redisplay form
+            TempData.AddErrorMessage(WebConstants.ForgotPasswordError);
+
             return View(model);
         }
 

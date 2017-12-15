@@ -7,14 +7,14 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using TeachTheChild.Data;
-using TeachTheChild.Data.Models.DownloadMaterials;
 
 namespace TeachTheChild.Data.Migrations
 {
     [DbContext(typeof(TeachTheChildDbContext))]
-    partial class TeachTheChildDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171215170957_InitDatabase")]
+    partial class InitDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -342,35 +342,6 @@ namespace TeachTheChild.Data.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("TeachTheChild.Data.Models.DownloadMaterials.DownloadMaterial", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<int>("Downloads");
-
-                    b.Property<int>("LanguageId");
-
-                    b.Property<DateTime?>("ModifiedOn");
-
-                    b.Property<string>("PictureUrl");
-
-                    b.Property<int>("Type");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("DownloadMaterials");
-                });
-
             modelBuilder.Entity("TeachTheChild.Data.Models.Language", b =>
                 {
                     b.Property<int>("Id")
@@ -456,104 +427,6 @@ namespace TeachTheChild.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.Video", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(10000);
-
-                    b.Property<int>("LanguageId");
-
-                    b.Property<DateTime?>("ModifiedOn");
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Url")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Videos");
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.VideoComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("BaseCommentId");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(500);
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime?>("ModifiedOn");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.Property<int>("VideoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BaseCommentId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VideoId");
-
-                    b.ToTable("VideoComments");
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.VideoCommentLike", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("VideoCommentId");
-
-                    b.Property<bool>("IsLike");
-
-                    b.HasKey("UserId", "VideoCommentId");
-
-                    b.HasIndex("VideoCommentId");
-
-                    b.ToTable("VideoCommentLikes");
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.VideoLike", b =>
-                {
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("VideoId");
-
-                    b.Property<bool>("IsLike");
-
-                    b.HasKey("UserId", "VideoId");
-
-                    b.HasIndex("VideoId");
-
-                    b.ToTable("VideoLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -713,19 +586,6 @@ namespace TeachTheChild.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("TeachTheChild.Data.Models.DownloadMaterials.DownloadMaterial", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.Language", "Language")
-                        .WithMany("DownloadMaterials")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("DownloadMaterials")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("TeachTheChild.Data.Models.User", b =>
                 {
                     b.HasOne("TeachTheChild.Data.Models.Country", "Country")
@@ -735,62 +595,6 @@ namespace TeachTheChild.Data.Migrations
                     b.HasOne("TeachTheChild.Data.Models.Language", "Language")
                         .WithMany("Users")
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.Video", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.Language", "Language")
-                        .WithMany("Videos")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("Videos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.VideoComment", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.Videos.VideoComment", "BaseComment")
-                        .WithMany("Answers")
-                        .HasForeignKey("BaseCommentId");
-
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("VideoComments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TeachTheChild.Data.Models.Videos.Video", "Video")
-                        .WithMany("Comments")
-                        .HasForeignKey("VideoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.VideoCommentLike", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("VideoCommentLikes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TeachTheChild.Data.Models.Videos.VideoComment", "Comment")
-                        .WithMany("Likes")
-                        .HasForeignKey("VideoCommentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("TeachTheChild.Data.Models.Videos.VideoLike", b =>
-                {
-                    b.HasOne("TeachTheChild.Data.Models.User", "User")
-                        .WithMany("VideoLikes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TeachTheChild.Data.Models.Videos.Video", "Video")
-                        .WithMany("Likes")
-                        .HasForeignKey("VideoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
