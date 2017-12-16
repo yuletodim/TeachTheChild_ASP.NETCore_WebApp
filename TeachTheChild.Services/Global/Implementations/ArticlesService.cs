@@ -19,7 +19,7 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<ArticleShortModel>> GetLastTree()
+        public async Task<IEnumerable<ArticleShortModel>> GetLastTreeAsync()
             => await this.dbContext
                 .Articles
                 .OrderByDescending(a => a.CreatedOn)

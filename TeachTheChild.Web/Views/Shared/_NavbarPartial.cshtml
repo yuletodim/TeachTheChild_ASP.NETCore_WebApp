@@ -18,27 +18,38 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                @if (User.IsInRole(DataConstants.AdminRole))
-                {
-                    <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Users</a></li>
-                }
-
                 @if (User.IsInRole(DataConstants.AdminRole) || User.IsInRole(DataConstants.ModeratorRole))
                 {
-                    <li><a asp-area="Moderator" asp-controller="Home" asp-action="Index">Pending Materials</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Administration
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if (User.IsInRole(DataConstants.AdminRole))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
+                            }
+                            
+                            <li><a asp-area="Moderator" asp-controller="Articles" asp-action="Index">Articles</a></li>
+                            <li><a asp-area="Moderator" asp-controller="Books" asp-action="Index">Books</a></li>
+                            <li><a asp-area="Moderator" asp-controller="Videos" asp-action="Index">Videos</a></li>
+                            <li><a asp-area="Moderator" asp-controller="Downloads" asp-action="Index">Downloads</a></li>
+                        </ul>
+                    </li>
                 }
 
                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-area="" asp-controller="Articles" asp-action="Index">Articles</a></li>
                 <li><a asp-area="" asp-controller="Books" asp-action="Index">Books</a></li>
                 <li><a asp-area="" asp-controller="Videos" asp-action="Index">Videos</a></li>
-                <li><a asp-area="" asp-controller="Materials" asp-action="Index">Downloads</a></li>
+                <li><a asp-area="" asp-controller="Downloads" asp-action="Index">Downloads</a></li>
             </ul>
             
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Languages
+                        Lang
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">

@@ -7,7 +7,7 @@
     using TeachTheChild.Web.Models;
     using TeachTheChild.Web.Models.Home;
 
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly IArticlesService articlesService;
         private readonly IBooksService booksService;
@@ -27,9 +27,9 @@
         {
             var model = new IndexViewModel
             {
-                Articles = await this.articlesService.GetLastTree(),
-                Books = await this.booksService.GetLastTree(),
-                Video = await this.videosService.GetMostLiked()
+                Articles = await this.articlesService.GetLastTreeAsync(),
+                Books = await this.booksService.GetLastTreeAsync(),
+                Video = await this.videosService.GetMostLikedAsync()
             };
 
             return View(model);

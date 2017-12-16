@@ -6,6 +6,6 @@
 
     public interface IArticlesService
     {
-        Task<IEnumerable<ArticleShortModel>> GetLastTree();
+        Task<IEnumerable<ArticleShortModel>> GetLastTreeAsync();
     }
 }

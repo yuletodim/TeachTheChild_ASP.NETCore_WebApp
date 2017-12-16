@@ -20,15 +20,20 @@
             this.dbContext = dbContext;
         }
 
-        public async Task<VideoShortModel> GetMostLiked()
-            => await this.dbContext
+        public async Task<VideoShortModel> GetMostLikedAsync()
+        {
+            var videos = await this.dbContext
                 .Videos
-                .OrderBy(a => a.Likes)
+                .OrderBy(a => a.Likes.Count)
                 .ThenByDescending(v => v.CreatedOn)
-                .Skip(0)
                 .Take(1)
                 .ProjectTo<VideoShortModel>()
-                .FirstOrDefaultAsync();
+                .ToListAsync();
+
+            return videos.FirstOrDefault();
+        }
+        
+
 
 
     }

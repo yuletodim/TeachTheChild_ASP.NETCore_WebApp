@@ -45,6 +45,11 @@
             {
                 await this.SeedLanguagesAsync();
             }
+
+            if (!this.dbContext.Users.Any())
+            {
+                await this.SeedAdmin();
+            }
         }
 
         private async Task SeedRolesAsync()
@@ -95,6 +100,38 @@
                 }
 
                 await this.dbContext.SaveChangesAsync();
+            }
+        }
+
+        private async Task SeedAdmin()
+        {
+            var countryId = this.dbContext
+                .Countries
+                .Where(c => c.Name == DataConstants.AdminCountry)
+                .Select(c => c.Id)
+                .FirstOrDefault();
+
+            var languageId = this.dbContext
+                .Languages
+                .Where(l => l.Name == DataConstants.EnglishLanguage)
+                .Select(l => l.Id)
+                .FirstOrDefault();
+
+            var adminUser = new User
+            {
+                Email = "admin@mysite.com",
+                UserName = "Yulia",
+                Name = "Yulia Dimitrova",
+                LanguageId = languageId,
+                CountryId = countryId,
+                CreatedOn = new System.DateTime(1995, 12, 30),
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(adminUser, "@Dmin123");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, DataConstants.AdminRole);
             }
         }
     }

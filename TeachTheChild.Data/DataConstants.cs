@@ -41,6 +41,6 @@
         public const int CommentAnswerMinLength = 1;
         public const int CommentAnswerMaxLength = 500;
 
-        public const string DefaultCountry = "Bulgaria";
+        public const string AdminCountry = "Bulgaria";
     }
 }

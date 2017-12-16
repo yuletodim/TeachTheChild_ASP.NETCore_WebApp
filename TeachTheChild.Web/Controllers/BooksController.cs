@@ -2,17 +2,20 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
-
-
     using TeachTheChild.Services.Global.Contracts;
 
-    public class BooksController : Controller
+    public class BooksController : BaseController
     {
         private readonly IBooksService booksService;
 
         public BooksController(IBooksService booksService)
         {
             this.booksService = booksService;
+        }
+
+        public IActionResult Index()
+        {
+            return this.View();
         }
 
         public IActionResult Add()

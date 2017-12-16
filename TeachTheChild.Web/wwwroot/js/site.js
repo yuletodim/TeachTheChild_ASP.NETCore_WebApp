@@ -28,8 +28,6 @@
     $.ajax({
         type: 'GET',
         url: '/my/url',
-        .....,
-        .....,
         success: function (result) {
             // Calbaclk here: call me  when you get result :)
             obj = result;

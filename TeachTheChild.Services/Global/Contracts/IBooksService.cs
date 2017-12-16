@@ -6,6 +6,6 @@
 
     public interface IBooksService
     {
-        Task<IEnumerable<BookShortModel>> GetLastTree();
+        Task<IEnumerable<BookShortModel>> GetLastTreeAsync();
     }
 }

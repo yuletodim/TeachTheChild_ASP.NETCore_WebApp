@@ -11,7 +11,6 @@
     using TeachTheChild.Data;
     using TeachTheChild.Data.Models;
     using TeachTheChild.Web.Infrastructure.Extensions;
-    using TeachTheChild.Web.Infrastructure.WebServices;
 
     public class Startup
     {

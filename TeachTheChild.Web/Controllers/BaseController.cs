@@ -1,11 +1,13 @@
 ﻿namespace TeachTheChild.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using System.Globalization;
     using System.Threading;
     using TeachTheChild.Web.Infrastructure.Constants;
 
+    [Authorize]
     public class BaseController : Controller
     {
         public override void OnActionExecuting(ActionExecutingContext context)

@@ -1,0 +1,33 @@
+﻿@model UsersWithPagingViewModel
+
+<div class="row">
+    <div class="box">
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registered On</th>
+                    <th>Roles</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.Username</td>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                        <td>@user.CreatedOn.ToShortDateString()</td>
+                        <td>
+                            @(string.Join(", ", user.Roles))
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

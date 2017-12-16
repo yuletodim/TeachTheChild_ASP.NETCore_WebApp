@@ -35,7 +35,7 @@
             }
         }
 
-        public async Task<IEnumerable<BookShortModel>> GetLastTree()
+        public async Task<IEnumerable<BookShortModel>> GetLastTreeAsync()
             => await this.dbContext
                 .Books
                 .OrderByDescending(a => a.CreatedOn)

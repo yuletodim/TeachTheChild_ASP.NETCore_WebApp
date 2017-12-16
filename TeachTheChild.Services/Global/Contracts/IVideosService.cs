@@ -5,6 +5,6 @@
 
     public interface IVideosService
     {
-        Task<VideoShortModel> GetMostLiked();
+        Task<VideoShortModel> GetMostLikedAsync();
     }
 }
