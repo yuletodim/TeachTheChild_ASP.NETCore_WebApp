@@ -1,8 +1,14 @@
 ﻿@model UsersWithPagingViewModel
 
+@section Styles{
+    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link hhref="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet"/>
+    @*<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />*@
+}
+
 <div class="row">
     <div class="box">
-        <table class="table table-bordered table-hover table-responsive">
+        <table id="usersTable" class="table table-bordered table-hover table-responsive">
             <thead>
                 <tr>
                     <th>Username</th>
@@ -13,21 +19,76 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var user in Model.Users)
-                {
-                    <tr>
-                        <td>@user.Username</td>
-                        <td>@user.Name</td>
-                        <td>@user.Email</td>
-                        <td>@user.CreatedOn.ToShortDateString()</td>
-                        <td>
-                            @(string.Join(", ", user.Roles))
-                        </td>
-                        <td></td>
-                    </tr>
-                }
-            </tbody>
+            @*<tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.Username</td>
+                            <td>@user.Name</td>
+                            <td>@user.Email</td>
+                            <td>@user.CreatedOn.ToShortDateString()</td>
+                            <td>
+                                @(string.Join(", ", user.Roles))
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>*@
         </table>
     </div>
 </div>
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    @*<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#usersTable').DataTable({
+                'processing': true, // for show progress bar
+                'serverSide': true, // for process server side
+                'filter': true, // this is for disable filter (search box)
+                'orderMulti': false, // for disable multiple column at once
+                'ajax': {
+                    'url': '/Admin/Users/LoadDatatableAjax',
+                    'type': 'POST',
+                    'contentType': 'application/json',
+                    'datatype': 'json'
+                },
+                //'columnDefs':
+                //[{
+                //    'targets': [0],
+                //    'visible': false,
+                //    'searchable': false
+                //}],
+                'columns': [
+                    { 'data': 'Username', 'name': 'Name', 'autoWidth': true },
+                    { 'data': 'Name', 'name': '', 'autoWidth': true },
+                    { 'data': 'Email', 'name': 'Email', 'autoWidth': true },
+                    { 'data': 'CreatedOn', 'name': 'CreatedOn', 'autoWidth': true },
+                    { 'data': 'Roles', 'name': 'Roles', 'autoWidth': true },
+                    {
+                        'data': 'Id',
+                        'render': function (Id) {
+                            var button = '<button id="btnEditUser" data-id="' + data.ID + '" class="btn btn-xs btn-default">' +
+                           '<i class="fa fa-edit" data-id="' + Id + '"></i> Edit </button>';
+                           
+                            return button;
+                        },
+                        'bSortable': false,
+                    },
+                    //{
+                    //    'render': function (data, type, full, meta) { return '<a class="btn btn-info" href="/DemoGrid/Edit/' + full.CustomerID + '">Edit</a>'; }
+                    //},
+                    //{
+                    //    data: null, render: function (data, type, row) {
+                    //        return '<a href="#" class="btn btn-primary" onclick=DeleteData("' + row.Id + '"); >Delete</a>';
+                    //    }
+                    // },
+                    
+
+                ]
+            });
+        });
+    </script>
+}

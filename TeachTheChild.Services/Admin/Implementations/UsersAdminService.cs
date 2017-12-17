@@ -27,9 +27,9 @@
         {
             var users = await this.dbContext
                 .Users
-                .OrderByDescending(u => u.CreatedOn)
-                .Skip((page - 1) * GlobalConstants.PageSize)
-                .Take(GlobalConstants.PageSize)
+                //.OrderByDescending(u => u.CreatedOn)
+                //.Skip((page - 1) * GlobalConstants.PageSize)
+                //.Take(GlobalConstants.PageSize)
                 .ToListAsync();
 
             var usersModel = new List<UserAdminServiceModel>();
@@ -42,8 +42,8 @@
                         Username = u.UserName,
                         Name = u.Name,
                         Email = u.Email,
-                        CreatedOn = u.CreatedOn,
-                        Roles = await this.userManager.GetRolesAsync(u)
+                        CreatedOn = u.CreatedOn
+                        //Roles = await this.userManager.GetRolesAsync(u)
                     });
                     
                 });
