@@ -19,21 +19,6 @@
                     <th></th>
                 </tr>
             </thead>
-            @*<tbody>
-                    @foreach (var user in Model.Users)
-                    {
-                        <tr>
-                            <td>@user.Username</td>
-                            <td>@user.Name</td>
-                            <td>@user.Email</td>
-                            <td>@user.CreatedOn.ToShortDateString()</td>
-                            <td>
-                                @(string.Join(", ", user.Roles))
-                            </td>
-                            <td></td>
-                        </tr>
-                    }
-                </tbody>*@
         </table>
     </div>
 </div>
@@ -42,6 +27,7 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     @*<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#usersTable').DataTable({
@@ -51,42 +37,34 @@
                 'orderMulti': false, // for disable multiple column at once
                 'ajax': {
                     'url': '/Admin/Users/LoadDatatableAjax',
-                    'type': 'POST',
-                    'contentType': 'application/json',
-                    'datatype': 'json'
+                    'type': 'POST'
                 },
-                //'columnDefs':
-                //[{
-                //    'targets': [0],
-                //    'visible': false,
-                //    'searchable': false
-                //}],
+                'deferRender': true,
                 'columns': [
-                    { 'data': 'Username', 'name': 'Name', 'autoWidth': true },
-                    { 'data': 'Name', 'name': '', 'autoWidth': true },
-                    { 'data': 'Email', 'name': 'Email', 'autoWidth': true },
-                    { 'data': 'CreatedOn', 'name': 'CreatedOn', 'autoWidth': true },
-                    { 'data': 'Roles', 'name': 'Roles', 'autoWidth': true },
+                    { 'data': 'userName', 'name': 'Username', 'autoWidth': true },
+                    { 'data': 'name', 'name': 'Name', 'autoWidth': true },
+                    { 'data': 'email', 'name': 'Email', 'autoWidth': true },
                     {
-                        'data': 'Id',
-                        'render': function (Id) {
-                            var button = '<button id="btnEditUser" data-id="' + data.ID + '" class="btn btn-xs btn-default">' +
-                           '<i class="fa fa-edit" data-id="' + Id + '"></i> Edit </button>';
+                        'data': 'createdOn',
+                        'name': 'CreatedOn',
+                        'autoWidth': true,
+                        'render': function (createdOn) {
+                            if (createdOn)
+                                return moment(createdOn).format('DD-MM-YYYY');
+                            return '';
+                        }
+                    },
+                    { 'data': 'roles', 'name': 'Roles', 'autoWidth': true },
+                    {
+                        'data': 'id',
+                        'render': function (id) {
+                            var button = '<button id="btnEditUser" data-id="' + id + '" class="btn btn-xs btn-default">' +
+                           '<i class="fa fa-edit" data-id="' + id + '"></i> Edit </button>';
                            
                             return button;
                         },
-                        'bSortable': false,
-                    },
-                    //{
-                    //    'render': function (data, type, full, meta) { return '<a class="btn btn-info" href="/DemoGrid/Edit/' + full.CustomerID + '">Edit</a>'; }
-                    //},
-                    //{
-                    //    data: null, render: function (data, type, row) {
-                    //        return '<a href="#" class="btn btn-primary" onclick=DeleteData("' + row.Id + '"); >Delete</a>';
-                    //    }
-                    // },
-                    
-
+                        'bSortable': false
+                    }                   
                 ]
             });
         });

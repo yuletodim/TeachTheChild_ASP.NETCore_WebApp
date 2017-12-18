@@ -22,52 +22,44 @@
             this.usersService = usersService;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
-        {
-            //var users = await this.usersService.GetAllWithPaging(page);
-            //var pagesCount = (int)Math.Ceiling(await this.usersService.GetTotalCountAsync() / (double)GlobalConstants.PageSize);
-
-            //var data = new UsersWithPagingViewModel
-            //{
-            //    Users = users,
-            //    CurrentPage = page,
-            //    PagesCount = pagesCount
-            //};
-
-            return View();
+        public IActionResult Index(int page = 1)
+        { 
+            return this.View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetDatatableDataAjax()
+        public IActionResult LoadDatatableAjax(DTParameters param)
         {
-            var data = await this.usersService.GetAllWithPaging();
-            return this.Json(data);
-        }
-
-        public async Task<IActionResult> LoadDatatableAjax(DTParameters param)
-        {
-            var a = HttpContext.Request.Form;
-            int count = 0;
-            var columnSearch = param.Columns.Select(c => c.Search.Value).ToList();
-            int? sortCol = null;
-            string sortDir = null;
-            if (param.Order != null)
+            try
             {
-                sortCol = param.Order[0].Column;
-                sortDir = param.Order[0].Dir.ToString();
+                int count = 0;
+                string sortCol = param.SortColumnName;
+                string sortDir = param.SortDirection;
+
+                var data = this.usersService.GetFilteredPortion(
+                    param.Length, 
+                    param.Start, 
+                    sortCol, 
+                    sortDir, 
+                    param.Search.Value,
+                    out count);
+
+                var result = new DTResult<UserAdminServiceModel>
+                {
+                    draw = param.Draw,
+                    data = data,
+                    recordsFiltered = data.Count(),
+                    recordsTotal = count
+                };
+
+                return this.Json(result);
             }
-
-
-            var data = await this.usersService.GetAllWithPaging();
-            var result = new DTResult<UserAdminServiceModel>
+            catch (Exception ex)
             {
-                draw = param.Draw,
-                data = data,
-                recordsFiltered = count,
-                recordsTotal = count
-            };
-
-            return this.Json(data);
+                
+                throw;
+            }
+            
 
         }
     }

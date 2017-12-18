@@ -123,9 +123,25 @@
             }
         }
 
-        public int? ClientID { get; set; }
-        public int iSortCol_0 { get; set; }
-        public string sSortDir_0 { get; set; }
+        public string SortColumnName
+        {
+            get
+            {
+                return Columns != null && Order != null && Order.Length > 0
+                    ? Columns[Order[0].Column].Data 
+                    : null;
+            }
+        }
+
+        public string SortDirection
+        {
+            get
+            {
+                return Columns != null && Order != null && Order.Length > 0
+                    ? Order[0].Dir.ToString()
+                    : null;
+            }
+        }
     }
 
     /// <summary>

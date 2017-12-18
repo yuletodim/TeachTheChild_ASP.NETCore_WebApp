@@ -6,7 +6,13 @@
 
     public interface IUsersAdminService
     {
-        Task<IEnumerable<UserAdminServiceModel>> GetAllWithPaging(int page = 1);
+        IEnumerable<UserAdminServiceModel> GetFilteredPortion(
+            int length,
+            int start,
+            string sortCol,
+            string sortDir,
+            string search,
+            out int count);
 
         Task<int> GetTotalCountAsync();
     }

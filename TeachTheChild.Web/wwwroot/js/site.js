@@ -24,22 +24,7 @@
         }
     }
 
-    var obj = {};
-    $.ajax({
-        type: 'GET',
-        url: '/my/url',
-        success: function (result) {
-            // Calbaclk here: call me  when you get result :)
-            obj = result;
-
-            // Or just call function 
-            myFunction(obj, result);
-        }
-    })
-
-    function myFunction(obj, result) {
-        // More logic here 
-    }
+   
 
 
 })();

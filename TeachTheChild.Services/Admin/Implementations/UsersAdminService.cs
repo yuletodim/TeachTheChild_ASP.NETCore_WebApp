@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using TeachTheChild.Common;
+    using TeachTheChild.Common.Extensions;
     using TeachTheChild.Data;
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Admin.Contracts;
@@ -23,30 +23,42 @@
             this.userManager = userManager;
         }
 
-        public async Task<IEnumerable<UserAdminServiceModel>> GetAllWithPaging(int page = 1)
+        public IEnumerable<UserAdminServiceModel> GetFilteredPortion(
+            int length,
+            int start,
+            string sortCol,
+            string sortDir,
+            string search,
+            out int count)
         {
-            var users = await this.dbContext
+            var users = this.dbContext
                 .Users
-                //.OrderByDescending(u => u.CreatedOn)
-                //.Skip((page - 1) * GlobalConstants.PageSize)
-                //.Take(GlobalConstants.PageSize)
-                .ToListAsync();
+                .Where(u => search == null
+                || u.UserName.ToLower().Contains(search.ToLower())
+                || u.Email.ToLower().Contains(search.ToLower())
+                || u.Name.ToLower().Contains(search.ToLower())
+                || u.CreatedOn.ToString().ToLower().Contains(search.ToLower()));
 
-            var usersModel = new List<UserAdminServiceModel>();
-            users.AsParallel()
-                .ForAll(async u => 
+            count = users.Count();
+
+            var usersModel = users
+                    .OrderByField(sortCol, sortDir)
+                    .Skip(start)
+                    .Take(length)
+                    .ProjectTo<UserAdminServiceModel>()
+                    .ToList();
+            var usersIds = usersModel.Select(um => um.Id);
+            var searchedUsers = users.Where(u => usersIds.Contains(u.Id)).ToList();
+
+            searchedUsers.ForEach(async u =>
+            {
+                var roles = await this.userManager.GetRolesAsync(u);
+                if (roles.Count > 0)
                 {
-                    usersModel.Add(new UserAdminServiceModel
-                    {
-                        Id = u.Id,
-                        Username = u.UserName,
-                        Name = u.Name,
-                        Email = u.Email,
-                        CreatedOn = u.CreatedOn
-                        //Roles = await this.userManager.GetRolesAsync(u)
-                    });
-                    
-                });
+                    var user = usersModel.FirstOrDefault(um => um.Id == u.Id);
+                    user.Roles = string.Join(", ", roles);
+                }
+            });
 
             return usersModel;
         }
