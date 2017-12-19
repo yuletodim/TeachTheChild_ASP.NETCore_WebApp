@@ -6,7 +6,7 @@
         $(document).on('click', '.deleteBook', deleteBook);
     });
 
-    function loadBoosDatatable(selector, url) {
+    function loadBooksDatatable(selector, url) {
         $(selector).DataTable({
             'processing': true,
             'serverSide': true,

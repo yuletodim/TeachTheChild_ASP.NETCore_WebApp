@@ -91,14 +91,10 @@
     }
 
     function formSubmit(form, e) {
-        debugger
         if ($(form).valid()) {
-            debugger
             var a = form;
             $.post('/Admin/Users/AddToRole', $('.role-form').serialize(), function (result) {
-
                 bootbox.hideAll();
-                debugger
                 if (result.success) {
                     toastr['success']("User added to role.");
                 } else {

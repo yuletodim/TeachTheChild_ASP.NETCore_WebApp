@@ -1,8 +1,11 @@
 ﻿(function () {
     $(window).load(function () {
         setFooterPosition();
+
         $(window).on('resize', setFooterPosition);
-        toastr.options = { "positionClass": "toast-top-center" };
+
+        toastr.options = { 'positionClass': 'toast-top-center' };
+
         $(document).on('click', '.userDetails', showUserDetails);
     });
 

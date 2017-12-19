@@ -1,11 +1,11 @@
 ﻿(function () {
     $(document).ready(function () {
-        loadBooksDatatable('#booksTable', '/Moderator/Articles/LoadDatatableAjax');
+        loadArticlesDatatable('#booksTable', '/Moderator/Articles/LoadDatatableAjax');
 
         $(document).on('click', '.deleteArticle', deleteArticle);
     });
 
-    function loadBoosDatatable(selector, url) {
+    function loadArticlesDatatable(selector, url) {
         $(selector).DataTable({
             'processing': true,
             'serverSide': true,

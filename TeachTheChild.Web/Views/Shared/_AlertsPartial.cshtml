@@ -1,13 +1,13 @@
 ﻿@if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
 {
     <script>
-        toastr.success('@TempData[WebConstants.TempDataSuccessMessageKey]', 'Success', { positionClass: 'toast-top-center' });
+        toastr.success('@TempData[WebConstants.TempDataSuccessMessageKey]', 'Success');
     </script>
 }
 
 @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
 {
     <script>
-        toastr.error('@TempData[WebConstants.TempDataErrorMessageKey]', 'Error', { positionClass: 'toast-top-center' });
+        toastr.error('@TempData[WebConstants.TempDataErrorMessageKey]', 'Error');
     </script>
 }
