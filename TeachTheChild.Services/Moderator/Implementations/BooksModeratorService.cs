@@ -1,24 +1,25 @@
 ﻿namespace TeachTheChild.Services.Moderator.Implementations
 {
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using TeachTheChild.Common.Extensions;
     using TeachTheChild.Data;
-    using TeachTheChild.Data.Models;
     using TeachTheChild.Data.Models.Books;
-    using TeachTheChild.Services.Global.Contracts;
     using TeachTheChild.Services.Moderator.Contracts;
-    using TeachTheChild.Services.Moderator.Models;
+    using TeachTheChild.Services.Moderator.Models.Books;
 
     public class BooksModeratorService : IBooksModeratorService
     {
-        private TeachTheChildDbContext dbContext;
+        private readonly TeachTheChildDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public BooksModeratorService(TeachTheChildDbContext dbContext)
+        public BooksModeratorService(TeachTheChildDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<bool> AddBook(Book book)

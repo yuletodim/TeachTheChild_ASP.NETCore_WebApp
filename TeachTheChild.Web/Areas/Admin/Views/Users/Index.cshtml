@@ -5,10 +5,12 @@
     <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 }
 
-@{ 
+@{
     var title = Model == null
         ? "All Users"
         : (Model == DataConstants.AdminRole ? DataConstants.AdminRole : DataConstants.ModeratorRole);
+
+        ViewData["Title"] = title;
 }
 
 <div class="row box">

@@ -1,7 +1,8 @@
 ﻿namespace TeachTheChild.Services.Moderator.Contracts
 {
     using System.Collections.Generic;
-    using TeachTheChild.Services.Moderator.Models;
+    using System.Threading.Tasks;
+    using TeachTheChild.Services.Moderator.Models.Articles;
 
     public interface IArticlesModeratorService
     {
@@ -12,5 +13,7 @@
             string sortDir, 
             string search, 
             out int count);
+
+        Task<bool> AddAsync(AddArticleModel article);
     }
 }

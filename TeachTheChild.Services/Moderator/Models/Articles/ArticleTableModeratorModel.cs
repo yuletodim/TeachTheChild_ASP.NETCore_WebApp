@@ -1,11 +1,10 @@
-﻿namespace TeachTheChild.Services.Moderator.Models
+﻿namespace TeachTheChild.Services.Moderator.Models.Articles
 {
-    using System;
     using AutoMapper;
-    using TeachTheChild.Common.Mappings;
-    using TeachTheChild.Data.Models;
-    using TeachTheChild.Data.Models.Articles;
+    using System;
     using System.Linq;
+    using TeachTheChild.Common.Mappings;
+    using TeachTheChild.Data.Models.Articles;
 
     public class ArticleTableModeratorModel : IMapFrom<Article>, IHaveCustomMappings
     {

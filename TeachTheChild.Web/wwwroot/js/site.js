@@ -3,7 +3,7 @@
         setFooterPosition();
         $(window).on('resize', setFooterPosition);
         toastr.options = { "positionClass": "toast-top-center" };
-        // $('.alert').fadeOut(10000);
+        $(document).on('click', '.userDetails', showUserDetails);
     });
 
     function setFooterPosition() {
@@ -22,6 +22,16 @@
                 'position': 'relative'
             });
         }
+    }
+
+    function showUserDetails(e) {
+        var userId = $(e.target).data('id');
+        var url = '/Admin/Users/GetUserAjax?id=' + userId;
+        $.get(url, function (data) {
+            var dialog = bootbox.dialog({
+                message: data
+            });
+        });
     }
 
    

@@ -1,21 +1,26 @@
 ﻿namespace TeachTheChild.Web.Areas.Moderator.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Moderator.Contracts;
     using TeachTheChild.Services.Moderator.Models;
+    using TeachTheChild.Services.Moderator.Models.Videos;
     using TeachTheChild.Web.Models;
 
     public class VideosController : BaseModeratorControler
     {
-        private IVideosModeratorService videosService;
+        private readonly IVideosModeratorService videosService;
+        private readonly UserManager<User> userManager;
 
-        public VideosController(IVideosModeratorService videosService)
+        public VideosController(IVideosModeratorService videosService, UserManager<User> userManager)
         {
             this.videosService = videosService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()

@@ -1,9 +1,7 @@
 ﻿(function () {
     $(document).ready(function () {
         loadUsersDatatable('#usersTable', '/Admin/Users/LoadDatatableAjax');
-        $(document).on('click', '.details', showUserDetails);
         $(document).on('click', '.add-to-role', addUserToRole);
-
     });
 
     function loadUsersDatatable(selector, url) {
@@ -40,7 +38,7 @@
                     'render': function (data) {
                         var buttons =
                             '<div class="btn-group">' +
-                                '<button type="button" data-id="' + data.id + '" class="btn btn-primary btn-sm details">Details</button>' +
+                            '<button type="button" data-id="' + data.id + '" class="btn btn-primary btn-sm userDetails">Details</button>' +
                                 '<button type="button" data-id="' + data.id + '" data-username="' + data.userName + '" class="btn btn-primary btn-sm add-to-role">Add to role</button>' +
                             '</div>';
 
@@ -57,16 +55,6 @@
                 },
                 'processing': '<img src="/images/loading.gif">'
             }
-        });
-    }
-
-    function showUserDetails(e) {
-        var userId = $(e.target).data('id');
-        var url = '/Admin/Users/GetUserAjax?id=' + userId;
-        $.get(url, function (data) {
-            var dialog = bootbox.dialog({
-                message: data
-            });
         });
     }
 

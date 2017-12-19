@@ -1,7 +1,7 @@
 ﻿namespace TeachTheChild.Services.Moderator.Contracts
 {
     using System.Collections.Generic;
-    using TeachTheChild.Services.Moderator.Models;
+    using TeachTheChild.Services.Moderator.Models.Books;
 
     public interface IBooksModeratorService
     {

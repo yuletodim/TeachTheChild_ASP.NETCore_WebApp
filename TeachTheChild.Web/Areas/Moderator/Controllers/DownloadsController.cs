@@ -1,17 +1,24 @@
 ﻿namespace TeachTheChild.Web.Areas.Moderator.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Moderator.Contracts;
     using TeachTheChild.Services.Moderator.Models;
+    using TeachTheChild.Services.Moderator.Models.Downloads;
     using TeachTheChild.Web.Models;
 
     public class DownloadsController : BaseModeratorControler
     {
-        private IDownloadMaterialsModeratorService downloadsService;
+        private readonly IDownloadMaterialsModeratorService downloadsService;
+        private readonly UserManager<User> userManager;
 
-        public DownloadsController(IDownloadMaterialsModeratorService downloadsService)
+        public DownloadsController(
+            IDownloadMaterialsModeratorService downloadsService, 
+            UserManager<User> userManager)
         {
             this.downloadsService = downloadsService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()

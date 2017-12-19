@@ -11,7 +11,7 @@
 
     public class UsersController : BaseAdminController
     {
-        private IUsersAdminService usersService;
+        private readonly IUsersAdminService usersService;
         
         public UsersController(IUsersAdminService usersService)
         {

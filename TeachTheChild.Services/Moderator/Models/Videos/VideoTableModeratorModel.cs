@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Services.Moderator.Models
+﻿namespace TeachTheChild.Services.Moderator.Models.Videos
 {
     using AutoMapper;
     using System;

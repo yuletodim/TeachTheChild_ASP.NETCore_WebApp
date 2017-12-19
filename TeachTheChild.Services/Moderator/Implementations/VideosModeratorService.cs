@@ -1,20 +1,23 @@
 ﻿namespace TeachTheChild.Services.Moderator.Implementations
 {
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using System.Collections.Generic;
     using System.Linq;
     using TeachTheChild.Common.Extensions;
     using TeachTheChild.Data;
     using TeachTheChild.Services.Moderator.Contracts;
-    using TeachTheChild.Services.Moderator.Models;
+    using TeachTheChild.Services.Moderator.Models.Videos;
 
     public class VideosModeratorService : IVideosModeratorService
     {
-        private TeachTheChildDbContext dbContext;
+        private readonly TeachTheChildDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public VideosModeratorService(TeachTheChildDbContext dbContext)
+        public VideosModeratorService(TeachTheChildDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public IEnumerable<VideoTableModeratorModel> GetFilteredPortion(

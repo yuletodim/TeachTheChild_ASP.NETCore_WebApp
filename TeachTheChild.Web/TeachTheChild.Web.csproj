@@ -51,7 +51,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Moderator\Models\Books\" />
-    <Folder Include="Areas\Moderator\Models\Articles\" />
     <Folder Include="Areas\Moderator\Models\DownloadMaterials\" />
     <Folder Include="Areas\Moderator\Models\Videos\" />
     <Folder Include="Models\Articles\" />

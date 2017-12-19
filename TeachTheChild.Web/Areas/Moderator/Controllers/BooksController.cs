@@ -1,21 +1,26 @@
 ﻿namespace TeachTheChild.Web.Areas.Moderator.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Moderator.Contracts;
     using TeachTheChild.Services.Moderator.Models;
+    using TeachTheChild.Services.Moderator.Models.Books;
     using TeachTheChild.Web.Models;
 
     public class BooksController : BaseModeratorControler
     {
-        private IBooksModeratorService booksService;
+        private readonly IBooksModeratorService booksService;
+        private readonly UserManager<User> userManager;
 
-        public BooksController(IBooksModeratorService booksService)
+        public BooksController(IBooksModeratorService booksService, UserManager<User> userManager)
         {
             this.booksService = booksService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()

@@ -1,4 +1,4 @@
-﻿namespace TeachTheChild.Services.Moderator.Models
+﻿namespace TeachTheChild.Services.Moderator.Models.Downloads
 {
     using System;
     using TeachTheChild.Common.Mappings;
