@@ -1,21 +1,30 @@
-﻿@model UsersWithPagingViewModel
+﻿@model string
 
 @section Styles{
     <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link hhref="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet"/>
-    @*<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />*@
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 }
 
-<div class="row">
-    <div class="box">
-        <table id="usersTable" class="table table-bordered table-hover table-responsive">
+@{ 
+    var title = Model == null
+        ? "All Users"
+        : (Model == DataConstants.AdminRole ? DataConstants.AdminRole : DataConstants.ModeratorRole);
+}
+
+<div class="row box">
+    <input type="hidden" id="role" data-id="@Model" />
+    <div class="col-md-12">
+        <h2 class="h-title">@title</h2>
+    </div>
+
+    <div>
+        <table id="usersTable" style="width:100%" class="table table-hover table-bordered" cellspacing="0">
             <thead>
                 <tr>
                     <th>Username</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Registered On</th>
-                    <th>Roles</th>
                     <th></th>
                 </tr>
             </thead>
@@ -24,49 +33,11 @@
 </div>
 
 @section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    @*<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>*@
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#usersTable').DataTable({
-                'processing': true, // for show progress bar
-                'serverSide': true, // for process server side
-                'filter': true, // this is for disable filter (search box)
-                'orderMulti': false, // for disable multiple column at once
-                'ajax': {
-                    'url': '/Admin/Users/LoadDatatableAjax',
-                    'type': 'POST'
-                },
-                'deferRender': true,
-                'columns': [
-                    { 'data': 'userName', 'name': 'Username', 'autoWidth': true },
-                    { 'data': 'name', 'name': 'Name', 'autoWidth': true },
-                    { 'data': 'email', 'name': 'Email', 'autoWidth': true },
-                    {
-                        'data': 'createdOn',
-                        'name': 'CreatedOn',
-                        'autoWidth': true,
-                        'render': function (createdOn) {
-                            if (createdOn)
-                                return moment(createdOn).format('DD-MM-YYYY');
-                            return '';
-                        }
-                    },
-                    { 'data': 'roles', 'name': 'Roles', 'autoWidth': true },
-                    {
-                        'data': 'id',
-                        'render': function (id) {
-                            var button = '<button id="btnEditUser" data-id="' + id + '" class="btn btn-xs btn-default">' +
-                           '<i class="fa fa-edit" data-id="' + id + '"></i> Edit </button>';
-                           
-                            return button;
-                        },
-                        'bSortable': false
-                    }                   
-                ]
-            });
-        });
-    </script>
+    <script src="~/js/Admin/admin-users.js"></script>
 }

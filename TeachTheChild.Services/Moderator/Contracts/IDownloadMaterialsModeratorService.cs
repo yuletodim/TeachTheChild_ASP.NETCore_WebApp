@@ -1,11 +1,16 @@
 ﻿namespace TeachTheChild.Services.Moderator.Contracts
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
-
+    using TeachTheChild.Services.Moderator.Models;
 
     public interface IDownloadMaterialsModeratorService
     {
+        IEnumerable<DownloadsTableModeratorModel> GetFilteredPortion(
+            int length,
+            int start,
+            string sortCol,
+            string sortDir,
+            string search,
+            out int count);
     }
 }

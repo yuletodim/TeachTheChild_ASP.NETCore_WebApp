@@ -15,7 +15,5 @@
         public string Email { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public string Roles { get; set; }
     }
 }

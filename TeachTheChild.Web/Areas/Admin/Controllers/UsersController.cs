@@ -1,66 +1,84 @@
 ﻿namespace TeachTheChild.Web.Areas.Admin.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Linq;
     using System.Threading.Tasks;
-    using TeachTheChild.Common;
-    using TeachTheChild.Data;
     using TeachTheChild.Services.Admin.Contracts;
-    using TeachTheChild.Web.Areas.Admin.Models.Users;
-    using System.Linq.Dynamic;
-    using TeachTheChild.Web.Models;
     using TeachTheChild.Services.Admin.Models.Users;
+    using TeachTheChild.Web.Areas.Admin.Models.Users;
+    using TeachTheChild.Web.Models;
 
     public class UsersController : BaseAdminController
     {
         private IUsersAdminService usersService;
-
+        
         public UsersController(IUsersAdminService usersService)
         {
             this.usersService = usersService;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index([FromQuery] string role)
         { 
-            return this.View();
+            return this.View(model: role);
         }
 
         [HttpPost]
-        public IActionResult LoadDatatableAjax(DTParameters param)
+        public IActionResult LoadDatatableAjax(DTParameters param, [FromQuery] string role)
         {
-            try
+            int count = 0;
+        
+            var data = this.usersService.GetFilteredPortion(
+                role,
+                param.Length, 
+                param.Start,
+                param.SortColumnName,
+                param.SortDirection, 
+                param.Search.Value,
+                out count);
+
+            var result = new DTResult<UserAdminServiceModel>
             {
-                int count = 0;
-                string sortCol = param.SortColumnName;
-                string sortDir = param.SortDirection;
+                draw = param.Draw,
+                data = data,
+                recordsFiltered = count,
+                recordsTotal = count
+            };
 
-                var data = this.usersService.GetFilteredPortion(
-                    param.Length, 
-                    param.Start, 
-                    sortCol, 
-                    sortDir, 
-                    param.Search.Value,
-                    out count);
+            return this.Json(result);
+        }
 
-                var result = new DTResult<UserAdminServiceModel>
-                {
-                    draw = param.Draw,
-                    data = data,
-                    recordsFiltered = data.Count(),
-                    recordsTotal = count
-                };
+        public async Task<IActionResult> GetUserAjax([FromQuery]string id)
+        {
+            var user = await this.usersService.GetByIdAsync(id);
 
-                return this.Json(result);
-            }
-            catch (Exception ex)
+            return this.PartialView("_UserDetailsPartial", user);
+        }
+
+        public async Task<IActionResult> AddUserToRoleGetAsync([FromQuery]string userId)
+        {
+            var roles = await this.usersService.GetRolesAsync();
+            var selectListRoles = roles.Select(r => new SelectListItem
             {
-                
-                throw;
-            }
-            
+                Text = r.Name,
+                Value = r.Name
+            });
 
+            var model = new AddUserToRoleViewModel
+            {
+                UserId = userId,
+                Roles = selectListRoles
+            };
+
+            return this.PartialView("_AddUserToRolePartial", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToRole(AddUserToRoleBindingModel model)
+        {
+            var result = await this.usersService.AddUserToRoleAsync(model.UserId, model.Role);
+           
+            return this.Json(new { success = result });
         }
     }
 }

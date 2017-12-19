@@ -21,9 +21,9 @@
 
         public Country Country { get; set; }
 
+        [Required]
         public int LanguageId { get; set; }
 
-        [Required]
         public Language Language { get; set; }
 
         [Required]

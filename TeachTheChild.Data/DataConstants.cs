@@ -2,7 +2,7 @@
 {
     public class DataConstants
     {
-        public const string AdminRole = "Administartor";
+        public const string AdminRole = "Administrator";
         public const string ModeratorRole = "Moderator";
 
         public const string EnglishLanguage = "en";

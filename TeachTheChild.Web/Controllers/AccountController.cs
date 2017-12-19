@@ -70,6 +70,7 @@
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    TempData.AddSuccessMessage(WebConstants.LoginSuccess);
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -89,7 +90,7 @@
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            TempData.AddSuccessMessage(WebConstants.LoginError);
             return View(model);
         }
 
@@ -270,6 +271,8 @@
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+            TempData.AddSuccessMessage(WebConstants.LogoutSuccess);
+
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -353,12 +356,15 @@
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        TempData.AddSuccessMessage(WebConstants.LoginSuccess);
+
                         return RedirectToLocal(returnUrl);
                     }
                 }
                 AddErrors(result);
             }
 
+            TempData.AddSuccessMessage(WebConstants.LoginError);
             ViewData["ReturnUrl"] = returnUrl;
             return View(nameof(ExternalLogin), model);
         }
@@ -403,8 +409,8 @@
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailService.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailService.SendEmailPasswordRecovoryAsync(model.Email, callbackUrl);
+
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 

@@ -18,19 +18,29 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                @if (User.IsInRole(DataConstants.AdminRole))
+                {
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Admin
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
+                            <li><a asp-area="Admin" asp-controller="Users" asp-action="Index" asp-route-role="@DataConstants.AdminRole">Admintrators</a></li>
+                            <li><a asp-area="Admin" asp-controller="Users" asp-action="Index" asp-route-role="@DataConstants.ModeratorRole">Moderators</a></li>
+                        </ul>
+                    </li>
+                }
+
                 @if (User.IsInRole(DataConstants.AdminRole) || User.IsInRole(DataConstants.ModeratorRole))
                 {
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Administration
+                            Manage
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            @if (User.IsInRole(DataConstants.AdminRole))
-                            {
-                                <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
-                            }
-                            
                             <li><a asp-area="Moderator" asp-controller="Articles" asp-action="Index">Articles</a></li>
                             <li><a asp-area="Moderator" asp-controller="Books" asp-action="Index">Books</a></li>
                             <li><a asp-area="Moderator" asp-controller="Videos" asp-action="Index">Videos</a></li>
@@ -39,7 +49,6 @@
                     </li>
                 }
 
-                <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-area="" asp-controller="Articles" asp-action="Index">Articles</a></li>
                 <li><a asp-area="" asp-controller="Books" asp-action="Index">Books</a></li>
                 <li><a asp-area="" asp-controller="Videos" asp-action="Index">Videos</a></li>

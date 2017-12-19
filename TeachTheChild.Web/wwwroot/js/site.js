@@ -2,8 +2,8 @@
     $(window).load(function () {
         setFooterPosition();
         $(window).on('resize', setFooterPosition);
-
-        $('.alert').fadeOut(10000);
+        toastr.options = { "positionClass": "toast-top-center" };
+        // $('.alert').fadeOut(10000);
     });
 
     function setFooterPosition() {

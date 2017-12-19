@@ -1,11 +1,16 @@
 ﻿namespace TeachTheChild.Services.Moderator.Contracts
 {
-    using System.Threading.Tasks;
-    using TeachTheChild.Data.Models;
-    using TeachTheChild.Data.Models.Books;
+    using System.Collections.Generic;
+    using TeachTheChild.Services.Moderator.Models;
 
     public interface IBooksModeratorService
     {
-        //Task<bool> AddBook(Book book);
+        IEnumerable<BookTableModeratorModel> GetFilteredPortion(
+            int length,
+            int start,
+            string sortCol,
+            string sortDir,
+            string search,
+            out int count);
     }
 }

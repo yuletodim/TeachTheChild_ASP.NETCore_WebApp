@@ -1,0 +1,14 @@
+﻿@model UserDetailsAdminModel
+
+<div id="user-details">
+    <ul class="user-details">
+        <li class="bootbox-header">
+            <h3> @Model.UserName </h3>
+        </li>
+        <li><strong>Name:</strong> @Model.Name</li>
+        <li><strong>e-mail:</strong> @Model.Email</li>
+        <li><strong>Nationality:</strong> @(Model.Country != null ? Model.Country : "Not available")</li>
+        <li><strong>Registered On:</strong> @Model.CreatedOn.ToShortDateString()</li>
+        <li><strong>Roles:</strong> @(Model.Roles == string.Empty ? "Regular User" : Model.Roles)</li>
+    </ul>
+</div>

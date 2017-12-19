@@ -7,6 +7,6 @@
         public const string DescOrder = "DESC";
         public const string OrderBy = "OrderBy";
         public const string OrderByDescending = "OrderByDescending";
-
+        public const string Roles = "roles";
     }
 }

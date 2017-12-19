@@ -2,9 +2,24 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div>
-    <p>
-        Thank you for confirming your email. You can login and ejoy our site now.
-    </p>
+<div class="row">
+    <div class="col-md-4 align-to-logo">
+        <div class="box ">
+            <h2>@ViewData["Title"]</h2>
+            <hr />
+            <div>
+                <p>
+                    Thank you for confirming your email. You can <a asp-action="Login">login</a> and ejoy our site now.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 text-center col-md-offset-2 ">
+        <div class="box">
+            <div class="tips">
+                <img src="~/images/account/MrGood.png" alt="MrHappyPic" class="img-responsive" />
+            </div>
+        </div>
+    </div>
 </div>

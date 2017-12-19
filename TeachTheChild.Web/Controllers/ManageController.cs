@@ -14,6 +14,9 @@
     using TeachTheChild.Web.Infrastructure.WebServices;
     using TeachTheChild.Web.Infrastructure.Extensions;
     using TeachTheChild.Web.Models.Manage;
+    using AutoMapper;
+    using TeachTheChild.Services.Global.Contracts;
+    using TeachTheChild.Web.Infrastructure.Constants;
 
     [Authorize]
     [Route("[controller]/[action]")]
@@ -24,21 +27,33 @@
         private readonly IEmailService _emailService;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IMapper mapper;
+        private readonly ICountriesService countriesService;
+        private readonly ILanguagesService languagesService;
+        private readonly IUsersService usersService;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public ManageController(
-          UserManager<User> userManager,
-          SignInManager<User> signInManager,
-          IEmailService emailService,
-          ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            IEmailService emailService,
+            ILogger<ManageController> logger,
+            UrlEncoder urlEncoder, 
+            IMapper mapper,
+            ICountriesService countriesService,
+            ILanguagesService languagesService,
+            IUsersService usersService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            this.mapper = mapper;
+            this.countriesService = countriesService;
+            this.languagesService = languagesService;
+            this.usersService = usersService;
         }
 
         [TempData]
@@ -53,14 +68,9 @@
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var model = new IndexViewModel
-            {
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
-            };
+            var model = this.mapper.Map<IndexViewModel>(user);
+            model.Countries = await this.countriesService.GetAllAsync();
+            model.Languages = await this.languagesService.GetAllAsync();
 
             return View(model);
         }
@@ -100,8 +110,13 @@
                 }
             }
 
+            var userId = await _userManager.GetUserIdAsync(user);
+            await this.usersService.EditUserDetailsAsync(userId, model.Name, model.CountryId, model.LanguageId);
+
             StatusMessage = "Your profile has been updated";
-            return RedirectToAction(nameof(Index));
+            TempData.AddSuccessMessage(WebConstants.ProfileUpdateSuccess);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]
@@ -171,9 +186,10 @@
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
 
-            return RedirectToAction(nameof(ChangePassword));
+            TempData.AddSuccessMessage(WebConstants.PasswordUpdateSuccess);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpGet]
@@ -221,7 +237,9 @@
             await _signInManager.SignInAsync(user, isPersistent: false);
             StatusMessage = "Your password has been set.";
 
-            return RedirectToAction(nameof(SetPassword));
+            TempData.AddSuccessMessage(WebConstants.PasswordUpdateSuccess);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpGet]

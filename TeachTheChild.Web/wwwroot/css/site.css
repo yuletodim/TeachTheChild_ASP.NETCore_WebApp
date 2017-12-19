@@ -39,6 +39,20 @@ h6 {
     letter-spacing: 1px;
 }
 
+a {
+    color: #4597f4;
+    -webkit-transition: color 400ms, background-color 400ms;
+    -moz-transition: color 400ms, background-color 400ms;
+    -o-transition: color 400ms, background-color 400ms;
+    transition: color 400ms, background-color 400ms;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    color: #7cbecc;
+}
+
 /*Navbar - custom Yulia*/
 .navbar-default {
     border: none;
@@ -332,6 +346,63 @@ footer p {
 .alert.alert-error {
     border-color: #e92325
 }
+
+/*Pagination datatable*/
+.pagination > .active > a, 
+.pagination > .active > span, 
+.pagination > .active > a:hover, 
+.pagination > .active > span:hover, 
+.pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #7cbecc;
+    border: 1px solid #7cbecc;
+}
+
+/*Buttons*/
+.btn {
+    border-width: 0;
+    border-bottom-width: 3px;
+    border-right-width: 2px;
+}
+
+.btn.btn-primary {
+    background: #a9f4e0;
+    border-color: #7cbecc;
+    color: grey;
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:focus {
+    background: #7cbecc;
+
+}
+
+.h-title {
+    border-bottom: 1px solid #999999;
+    margin-bottom: 20px;
+}
+
+#user-details ul.user-details {
+    list-style: none;
+    padding: 0;
+    border: 2px solid #eee;
+    padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#user-details ul.user-details li {
+    display: block;
+    padding: 10px;
+}
+
+#user-details ul.user-details li.bootbox-header {
+    background: #a9f4e0;
+    padding: 15px;
+    border: 0;
+}
+
+/*Toastr*/
+
 
 /*colors : 
     aqua: #7cbecc; 

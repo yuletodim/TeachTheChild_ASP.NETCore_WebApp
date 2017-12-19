@@ -1,0 +1,24 @@
+﻿@model AddUserToRoleViewModel
+
+<div id="user-details">
+    <ul class="user-details">
+        <li class="bootbox-header">
+            <h3>  </h3>
+        </li>
+        <li>
+            <form method="post" asp-controller="Users" asp-action="AddToRole" class="role-form">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <input type="hidden" name="UserId" value="@Model.UserId" />
+                        <select name="Role" asp-items="Model.Roles" class="form-control"></select>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <input class="btn btn-sm btn-primary" type="submit" id="addToRole" value="Add To Role" />
+                        <button class="btn btn-sm btn-defualt" type="button" id="cancelAddToRole">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </li>
+    </ul>
+</div>
