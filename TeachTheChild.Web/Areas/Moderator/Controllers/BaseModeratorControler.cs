@@ -6,7 +6,7 @@
     using TeachTheChild.Web.Infrastructure.Filters;
 
     [Area(WebConstants.ModeratorArea)]
-    //[AuthorizeRoles(DataConstants.AdminRole, DataConstants.ModeratorRole)]
+    [AuthorizeRoles(DataConstants.AdminRole + ", "  + DataConstants.ModeratorRole)]
     public class BaseModeratorControler : Controller
     {
     }
