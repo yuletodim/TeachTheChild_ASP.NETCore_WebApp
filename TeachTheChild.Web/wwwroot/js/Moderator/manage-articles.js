@@ -1,18 +1,18 @@
 ﻿(function () {
     $(document).ready(function () {
-        loadArticlesDatatable('#booksTable', '/Moderator/Articles/LoadDatatableAjax');
+        loadArticlesDatatable('#articlesTable', '/Moderator/Articles/LoadDatatableAjax');
 
-        $(document).on('click', '.deleteArticle', deleteArticle);
+        $(document).on('click', '.deleteArticle', deleteArticleConfirmation);
     });
 
-    function loadArticlesDatatable(selector, url) {
+    function loadArticlesDatatable(selector, url, common) {
         $(selector).DataTable({
             'processing': true,
             'serverSide': true,
             'filter': true,
             'orderMulti': false,
             'scrollX': true,
-            'order': [[3, 'desc']],
+            'order': [[2, 'desc']],
             'ajax': {
                 'url': url,
                 'type': 'POST'
@@ -22,12 +22,6 @@
                 { 'data': 'title' },
                 { 'data': 'author' },
                 {
-                    'data': { id: 'userId', userName: 'userName' },
-                    'render': function (data) {
-                        return '<a href="javascript:;"data-id="' + data.userId + '" class="btn btn-primary btn-sm details">' + userName + '</a>';
-                    },
-                },
-                {
                     'data': 'createdOn',
                     'render': function (createdOn) {
                         if (createdOn)
@@ -35,16 +29,17 @@
                         return '';
                     }
                 },
-                { 'data': 'comments' },
-                { 'data': 'likes' },
-                { 'data': 'dislikes' },
+                { 'data': 'commentsCount' },
+                { 'data': 'likesCount' },
+                { 'data': 'dislikesCount' },
                 {
-                    'data': 'id',
-                    'render': function (id) {
+                    'data': { id: 'id', title: 'title' },
+                    'render': function (data) {
+                        var friendlyTitle = makeUrlSeoFriendly(data.title);
                         var buttons =
                             '<div class="btn-group">' +
-                                '<a href="/articles/details/' + id + '" class="btn btn-primary btn-sm">Article</a>' +
-                            '<button type="button" data-id="' + id + '" class="btn btn-primary btn-sm deleteArticle">Delete</button>' +
+                            '<a href="/articles/' + data.id + '/' + friendlyTitle + '" class="btn btn-primary btn-sm">Article</a>' +
+                            '<button type="button" data-id="' + data.id + '" data-title="' + data.title + '" class="btn btn-primary btn-sm deleteArticle">Delete</button>' +
                             '</div>';
 
                         return buttons;
@@ -63,4 +58,34 @@
         });
     }
 
+    function deleteArticleConfirmation(e) {
+        var id = $(e.target).data('id');
+        var title = $(e.target).data('title');
+        bootbox.confirm('Are you sure you want to delete article: \"' + title + '\"?', function (result) {
+            if (result) {
+                deleteArticle(id, title);
+            }
+        });
+    }
+
+    function deleteArticle(id, title) {
+        var data = { id: id };
+        $.ajax({
+            type: 'POST',
+            url: '/Moderator/Articles/Delete/',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {
+                if (result.success) {
+                    bootbox.hideAll();
+                    $('#articlesTable').DataTable().draw();
+                    var deleteMessage = 'Article "' + title + '" deleted.';
+                    toastr['success'](deleteMessage, 'Success');
+                } else {
+                    toastr['error']('Failed to delete article.', 'Error');
+                }
+            }
+        });
+    }
 })();

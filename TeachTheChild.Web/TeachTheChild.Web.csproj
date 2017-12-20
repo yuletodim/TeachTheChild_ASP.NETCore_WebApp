@@ -50,13 +50,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Moderator\Models\Books\" />
-    <Folder Include="Areas\Moderator\Models\DownloadMaterials\" />
-    <Folder Include="Areas\Moderator\Models\Videos\" />
     <Folder Include="Models\Articles\" />
     <Folder Include="Models\Books\" />
     <Folder Include="Models\DownloadMaterials\" />
     <Folder Include="Models\Videos\" />
+    <Folder Include="wwwroot\Files\Downloads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Moderator\Views\Books\Add.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

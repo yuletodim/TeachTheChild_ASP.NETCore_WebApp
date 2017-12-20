@@ -1,8 +1,10 @@
 ﻿namespace TeachTheChild.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
     using TeachTheChild.Services.Global.Contracts;
+    using TeachTheChild.Web.Infrastructure.Filters;
 
     public class ArticlesController : BaseController
     {
@@ -17,5 +19,8 @@
         {
             return this.View();
         }
+
+        public async Task<IActionResult> Details(int id)
+            => this.View(await this.articlesService.GetByIdAsync(id));
     }
 }

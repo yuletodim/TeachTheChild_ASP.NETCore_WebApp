@@ -1,0 +1,24 @@
+﻿@model PublishArticleBindingModel
+@{
+    ViewData["Title"] = "Edit Article";
+}
+
+@await Html.PartialAsync("_WriteArticlePartial", Model)
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/tinimce/tinymce.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            tinymce.init({
+                selector: '.article-text',
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor textcolor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table contextmenu paste code help'
+                ]
+            });
+        });
+    </script>
+}

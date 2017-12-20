@@ -27,5 +27,19 @@
                 .Take(3)
                 .ProjectTo<ArticleShortModel>()
                 .ToListAsync();
+
+
+        public async Task<ArticleDetailsModel> GetByIdAsync(int id)
+        {
+            var b =  await this.dbContext
+                .Articles
+                .Where(a => a.Id == id)
+                .ProjectTo<ArticleDetailsModel>()
+                .FirstOrDefaultAsync();
+
+            return b;
+        }
+
+
     }
 }

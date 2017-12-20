@@ -7,5 +7,7 @@
     public interface IArticlesService
     {
         Task<IEnumerable<ArticleShortModel>> GetLastTreeAsync();
+
+        Task<ArticleDetailsModel> GetByIdAsync(int id);
     }
 }

@@ -8,6 +8,8 @@
     using TeachTheChild.Data;
     using TeachTheChild.Services.Moderator.Contracts;
     using TeachTheChild.Services.Moderator.Models.Videos;
+    using System.Threading.Tasks;
+    using TeachTheChild.Data.Models.Videos;
 
     public class VideosModeratorService : IVideosModeratorService
     {
@@ -39,13 +41,38 @@
             count = videos.Count();
 
             var videosModel = videos
+                .ProjectTo<VideoTableModeratorModel>()
                     .OrderByField(sortCol, sortDir)
                     .Skip(start)
                     .Take(length)
-                    .ProjectTo<VideoTableModeratorModel>()
                     .ToList();
 
             return videosModel;
+        }
+
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var video = await this.dbContext.Videos.FindAsync(id);
+            if (video == null)
+            {
+                return false;
+            }
+
+            this.dbContext.Remove(video);
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<int> AddAsync(VideoFormModel videoModel)
+        {
+            var video = this.mapper.Map<Video>(videoModel);
+
+            await this.dbContext.AddAsync(video);
+            await this.dbContext.SaveChangesAsync();
+
+            return video.Id;
         }
     }
 }

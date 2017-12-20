@@ -14,6 +14,14 @@
             string search, 
             out int count);
 
-        Task<bool> AddAsync(AddArticleModel article);
+        Task<int> AddAsync(ArticleFormModel article);
+
+        Task<bool> IsArticleFromUserAsync(int id, string userId);
+
+        Task<ArticleFormModel> GetByIdAsync(int id);
+
+        Task<bool> EditAsync(ArticleFormModel article);
+
+        Task<bool> DeleteAsync(int id);
     }
 }

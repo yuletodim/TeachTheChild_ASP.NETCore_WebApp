@@ -2,8 +2,7 @@
     $(document).ready(function () {
         loadBooksDatatable('#booksTable', '/Moderator/Books/LoadDatatableAjax');
        
-        $(document).on('click', '.bookDetails', showBookDetails);
-        $(document).on('click', '.deleteBook', deleteBook);
+        $(document).on('click', '.deleteBook', deleteBookConfirmation);
     });
 
     function loadBooksDatatable(selector, url) {
@@ -22,12 +21,7 @@
             'columns': [
                 { 'data': 'title' },
                 { 'data': 'author' },
-                {
-                    'data': { id: 'userId', userName: 'userName' },
-                    'render': function (data) {
-                        return '<a href="javascript:;"data-id="' + data.userId + '" class="btn btn-primary btn-sm details">' + userName + '</a>';
-                    },
-                },
+                { 'data': 'userName' },
                 {
                     'data': 'createdOn',
                     'render': function (createdOn) {
@@ -36,16 +30,17 @@
                         return '';
                     }
                 },
-                { 'data': 'comments' },
-                { 'data': 'likes' },
-                { 'data': 'dislikes' },
+                { 'data': 'commentsCount' },
+                { 'data': 'likesCount' },
+                { 'data': 'dislikesCount' },
                 {
-                    'data': 'id',
-                    'render': function (id) {
+                    'data': { id: 'id', title: 'title' },
+                    'render': function (data) {
+                        var friendlyTitle = makeUrlSeoFriendly(data.title);
                         var buttons =
                             '<div class="btn-group">' +
-                                '<button type="button" data-id="' + data.id + '" class="btn btn-primary btn-sm bookDetails">Details</button>' +
-                                '<button type="button" data-id="' + data.id + '" class="btn btn-primary btn-sm deleteBook">Delete</button>' +
+                                '<a href="/books/' + data.id + '/' + friendlyTitle + '" class="btn btn-primary btn-sm">Book</a>' +
+                                '<button type="button" data-id="' + data.id + '" data-title="' + data.title + '" class="btn btn-primary btn-sm deleteBook">Delete</button>' +
                             '</div>';
 
                         return buttons;
@@ -64,4 +59,34 @@
         });
     }
 
+    function deleteBookConfirmation(e) {
+        var id = $(e.target).data('id');
+        var title = $(e.target).data('title');
+        bootbox.confirm('Are you sure you want to delete book: \"' + title + '\"?', function (result) {
+            if (result) {
+                deleteBook(id, title);
+            }
+        });
+    }
+
+    function deleteBook(id, title) {
+        var data = { id: id };
+        $.ajax({
+            type: 'POST',
+            url: '/Moderator/Books/Delete/',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {
+                if (result.success) {
+                    bootbox.hideAll();
+                    $('#booksTable').DataTable().draw();
+                    var deleteMessage = 'Book "' + title +'" deleted.';
+                    toastr['success'](deleteMessage, 'Success');
+                } else {
+                    toastr['error']('Failed to delete book.', 'Error');
+                }
+            }
+        });
+    }
 })();

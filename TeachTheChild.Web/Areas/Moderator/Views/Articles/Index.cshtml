@@ -9,12 +9,13 @@
 
 <div class="row box">
     <input type="hidden" id="role" data-id="@Model" />
-    <div class="col-md-12">
-        <h2 class="h-title">@ViewData["Title"]</h2>
+    <div class="col-md-12 h-title">
+        <div class="col-md-10"><h2>@ViewData["Title"]</h2></div>
+        <div class="col-md-2 text-right"><a asp-action="Create" class="btn btn-primary">Add New Article</a> </div>       
     </div>
 
     <div>
-        <table id="booksTable" style="width:100%" class="table table-hover table-bordered" cellspacing="0">
+        <table id="articlesTable" style="width:100%" class="table table-hover table-bordered" cellspacing="0">
             <thead>
                 <tr>
                     <th>Title</th>

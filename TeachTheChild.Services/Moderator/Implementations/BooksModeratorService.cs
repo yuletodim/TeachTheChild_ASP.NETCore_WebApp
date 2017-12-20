@@ -56,13 +56,37 @@
             count = books.Count();
 
             var booksModel = books
+                    .ProjectTo<BookTableModeratorModel>()
                     .OrderByField(sortCol, sortDir)
                     .Skip(start)
-                    .Take(length)
-                    .ProjectTo<BookTableModeratorModel>()
+                    .Take(length)                 
                     .ToList();
 
             return booksModel;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var book = await this.dbContext.Books.FindAsync(id);
+            if (book == null)
+            {
+                return false;
+            }
+
+            this.dbContext.Remove(book);
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<int> AddAsync(BookFormModel bookModel)
+        {
+            var book = this.mapper.Map<Book>(bookModel);
+
+            await this.dbContext.AddAsync(book);
+            await this.dbContext.SaveChangesAsync();
+
+            return book.Id;
         }
     }
 }

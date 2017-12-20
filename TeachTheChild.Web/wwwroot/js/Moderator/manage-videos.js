@@ -1,8 +1,8 @@
 ﻿(function () {
     $(document).ready(function () {
-        loadVideosDatatable('#booksTable', '/Moderator/Videos/LoadDatatableAjax');
+        loadVideosDatatable('#videosTable', '/Moderator/Videos/LoadDatatableAjax');
 
-        $(document).on('click', '.deleteVideo', deleteVideo);
+        $(document).on('click', '.deleteVideo', deleteVideoConfirmation);
     });
 
     function loadVideosDatatable(selector, url) {
@@ -21,12 +21,7 @@
             'columns': [
                 { 'data': 'title' },
                 { 'data': 'source' },
-                {
-                    'data': { id: 'userId', userName: 'userName' },
-                    'render': function (data) {
-                        return '<a href="javascript:;"data-id="' + data.userId + '" class="btn btn-primary btn-sm details">' + userName + '</a>';
-                    },
-                },
+                { 'data': 'userName' },
                 {
                     'data': 'createdOn',
                     'render': function (createdOn) {
@@ -35,16 +30,17 @@
                         return '';
                     }
                 },
-                { 'data': 'comments' },
-                { 'data': 'likes' },
-                { 'data': 'dislikes' },
+                { 'data': 'commentsCount' },
+                { 'data': 'likesCount' },
+                { 'data': 'dislikesCount' },
                 {
-                    'data': 'id',
-                    'render': function (id) {
+                    'data': { id: 'id', title: 'title' },
+                    'render': function (data) {
+                        var friendlyTitle = makeUrlSeoFriendly(data.title);
                         var buttons =
                             '<div class="btn-group">' +
-                            '<a href="/videos/details/' + id + '" class="btn btn-primary btn-sm">Video</a>' +
-                            '<button type="button" data-id="' + id + '" class="btn btn-primary btn-sm deleteVideo">Delete</button>' +
+                            '<a href="/videos/' + data.id + '/' + friendlyTitle + '" class="btn btn-primary btn-sm">Video</a>' +
+                            '<button type="button" data-id="' + data.id + '" data-title="' + data.title + '" class="btn btn-primary btn-sm deleteVideo">Delete</button>' +
                             '</div>';
 
                         return buttons;
@@ -63,4 +59,34 @@
         });
     }
 
+    function deleteVideoConfirmation(e) {
+        var id = $(e.target).data('id');
+        var title = $(e.target).data('title');
+        bootbox.confirm('Are you sure you want to delete video: \"' + title + '\"?', function (result) {
+            if (result) {
+                deleteVideo(id, title);
+            }
+        });
+    }
+
+    function deleteVideo(id, title) {
+        var data = { id: id };
+        $.ajax({
+            type: 'POST',
+            url: '/Moderator/Videos/Delete/',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {
+                if (result.success) {
+                    bootbox.hideAll();
+                    $('#videosTable').DataTable().draw();
+                    var deleteMessage = 'Video "' + title + '" deleted.';
+                    toastr['success'](deleteMessage, 'Success');
+                } else {
+                    toastr['error']('Failed to delete video.', 'Error');
+                }
+            }
+        });
+    }
 })();

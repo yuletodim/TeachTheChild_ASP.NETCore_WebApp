@@ -96,12 +96,11 @@
             $.post('/Admin/Users/AddToRole', $('.role-form').serialize(), function (result) {
                 bootbox.hideAll();
                 if (result.success) {
-                    toastr['success']("User added to role.");
+                    toastr['success']('User added to role.', 'Success');
                 } else {
-                    toastr['error']("Cannot add user to role.");
+                    toastr['error']('Cannot add user to role.', 'Error');
                 }
             });
-        }
-              
+        }       
     }
 })();

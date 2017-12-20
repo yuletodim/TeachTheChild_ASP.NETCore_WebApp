@@ -2,7 +2,7 @@
     $(document).ready(function () {
         loadDownloadsDatatable('#booksTable', '/Moderator/Downloads/LoadDatatableAjax');
 
-        $(document).on('click', '.deleteDownload', deleteDownload);
+        $(document).on('click', '.deleteDownload', deleteDownloadsConfirmation);
     });
 
     function loadDownloadsDatatable(selector, url) {
@@ -20,13 +20,7 @@
             'deferRender': true,
             'columns': [
                 { 'data': 'id' },
-                { 'data': 'author' },
-                {
-                    'data': { id: 'userId', userName: 'userName' },
-                    'render': function (data) {
-                        return '<a href="javascript:;"data-id="' + data.userId + '" class="btn btn-primary btn-sm details">' + userName + '</a>';
-                    },
-                },
+                { 'data': 'user' },
                 {
                     'data': 'createdOn',
                     'render': function (createdOn) {
@@ -57,6 +51,36 @@
                     'next': '>>'
                 },
                 'processing': '<img src="/images/loading.gif">'
+            }
+        });
+    }
+
+    function deleteDownloadsConfirmation(e) {
+        var id = $(e.target).data('id');
+        bootbox.confirm('Are you sure you want to delete material: ' + id + '?', function (result) {
+            if (result) {
+                deleteBook(id);
+            }
+        });
+    }
+
+    function deleteBook(id) {
+        var data = { id: id };
+        $.ajax({
+            type: 'POST',
+            url: '/Moderator/Downloads/Delete/',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {
+                if (result.success) {
+                    bootbox.hideAll();
+                    $('#booksTable').DataTable().draw();
+                    var deleteMessage = 'Material: "' + id + '" deleted.';
+                    toastr['success'](deleteMessage, 'Success');
+                } else {
+                    toastr['error']('Failed to delete book.', 'Error');
+                }
             }
         });
     }

@@ -42,18 +42,19 @@
             string search,
             out int count)
         {
-            var users = this.dbContext
-                .Users
+            var users = this.dbContext.Users.AsQueryable();
+
+            if (role != null)
+            {
+                users = this.userManager.GetUsersInRoleAsync(role).Result.AsQueryable();
+            }
+
+            users = users
                 .Where(u => search == null
                 || u.UserName.ToLower().Contains(search.ToLower())
                 || u.Email.ToLower().Contains(search.ToLower())
                 || u.Name.ToLower().Contains(search.ToLower())
                 || u.CreatedOn.ToString().ToLower().Contains(search.ToLower()));
-
-            if(role != null)
-            {
-                users = this.userManager.GetUsersInRoleAsync(role).Result.AsQueryable();
-            }
 
             count = users.Count();
 

@@ -5,5 +5,7 @@
     public interface IUsersService
     {
         Task EditUserDetailsAsync(string userId, string name, int countryId, int languageId);
+
+        Task<int> GetUserLanguageIdAsync(string id);
     }
 }

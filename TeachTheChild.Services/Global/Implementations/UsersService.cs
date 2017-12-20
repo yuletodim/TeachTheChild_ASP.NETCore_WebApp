@@ -1,5 +1,7 @@
 ﻿namespace TeachTheChild.Services.Global.Implementations
 {
+    using Microsoft.EntityFrameworkCore;
+    using System.Linq;
     using System.Threading.Tasks;
     using TeachTheChild.Data;
     using TeachTheChild.Services.Global.Contracts;
@@ -22,5 +24,12 @@
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<int> GetUserLanguageIdAsync(string id)
+            => await this.dbContext
+                .Users
+                .Where(u => u.Id == id)
+                .Select(u => u.LanguageId)
+                .FirstOrDefaultAsync();
     }
 }

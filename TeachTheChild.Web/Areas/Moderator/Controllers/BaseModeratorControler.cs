@@ -7,7 +7,7 @@
 
     [Area(WebConstants.ModeratorArea)]
     [Authorize(Roles = DataConstants.AdminRole + ", "  + DataConstants.ModeratorRole)]
-    public class BaseModeratorControler : Controller
+    public abstract class BaseModeratorControler : Controller
     {
     }
 }

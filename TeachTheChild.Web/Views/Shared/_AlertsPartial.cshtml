@@ -11,3 +11,10 @@
         toastr.error('@TempData[WebConstants.TempDataErrorMessageKey]', 'Error');
     </script>
 }
+
+@if (TempData.ContainsKey(WebConstants.TempDataInfoMessageKey))
+{
+    <script>
+        toastr.error('@TempData[WebConstants.TempDataInfoMessageKey]', 'Info');
+    </script>
+}

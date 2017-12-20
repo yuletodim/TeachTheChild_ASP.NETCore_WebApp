@@ -87,13 +87,8 @@
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "users",
-                    template: "users/{username}",
-                    defaults: new { controller = "Users", action = "Profile" });
-
-                routes.MapRoute(
                     name: "titles",
-                    template: "{area:exists}/{controller=Home}/{id}/{title}",
+                    template: "{controller}/{id}/{title}",
                     defaults: new { action = "Details" });
 
                 routes.MapRoute(

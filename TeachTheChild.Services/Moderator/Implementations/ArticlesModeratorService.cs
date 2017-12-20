@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using TeachTheChild.Data.Models.Articles;
+    using Microsoft.EntityFrameworkCore;
 
     public class ArticlesModeratorService : IArticlesModeratorService
     {
@@ -40,20 +41,65 @@
             count = articles.Count();
 
             var articlesModel = articles
+                    .ProjectTo<ArticleTableModeratorModel>()
                     .OrderByField(sortCol, sortDir)
                     .Skip(start)
-                    .Take(length)
-                    .ProjectTo<ArticleTableModeratorModel>()
+                    .Take(length)                   
                     .ToList();
 
             return articlesModel;
         }
 
-        public async Task<bool> AddAsync(AddArticleModel articleModel)
+        public async Task<int> AddAsync(ArticleFormModel articleModel)
         {
             var article = this.mapper.Map<Article>(articleModel);
 
             await this.dbContext.Articles.AddAsync(article);
+            await this.dbContext.SaveChangesAsync();
+
+            return article.Id;
+        }
+
+        public async Task<bool> IsArticleFromUserAsync(int id, string userId)
+            => await this.dbContext.Articles.AnyAsync(a => a.Id == id && a.UserId == userId);
+
+        public async Task<ArticleFormModel> GetByIdAsync(int id)
+        {
+            var b = await this.dbContext
+                .Articles
+                .Where(a => a.Id == id)
+                .ProjectTo<ArticleFormModel>()
+                .FirstOrDefaultAsync();
+            return b;
+        }
+
+
+        public async Task<bool> EditAsync(ArticleFormModel articleModel)
+        {
+            var article = this.dbContext.Articles.Find(articleModel.Id);
+            if (article == null)
+            {
+                return false;
+            }
+
+            article.Title = articleModel.Title;
+            article.Content = articleModel.Content;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var article = await this.dbContext.Articles.FindAsync(id);
+
+            if (article == null)
+            {
+                return false;
+            }
+
+            this.dbContext.Remove(article);
             await this.dbContext.SaveChangesAsync();
 
             return true;

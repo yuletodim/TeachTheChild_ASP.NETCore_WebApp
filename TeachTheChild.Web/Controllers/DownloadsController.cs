@@ -1,7 +1,6 @@
 ﻿namespace TeachTheChild.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
     using TeachTheChild.Services.Global.Contracts;
 
     public class DownloadsController : BaseController
@@ -14,6 +13,11 @@
         }
 
         public IActionResult Index()
+        {
+            return this.View();
+        }
+
+        public IActionResult Details(int id)
         {
             return this.View();
         }
