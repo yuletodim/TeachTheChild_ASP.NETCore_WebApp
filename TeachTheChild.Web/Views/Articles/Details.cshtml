@@ -33,8 +33,7 @@
                 @Html.Raw(Model.Content)
             </div>
            
-
-            <div class="padded">
+            <div class="col-md-12 padded text-right">
                 <div class="likes-wrapper">
                     <button class="transparent-button btn-xs"><img class="like-button img-responsive" src="~/images/like.png"></button>
                     <span class="material-likes">@Model.Likes</span>
@@ -66,6 +65,9 @@
 
 @section Scripts{ 
     <script src="~/js/global/article-details.js"></script>
+    <script>
+        $('#nav-articles').addClass('active');
+    </script>
 }
 
 

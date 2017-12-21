@@ -111,6 +111,11 @@
             }
 
             var article = await this.articlesService.GetByIdAsync(id);
+            if (article == null)
+            {
+                return this.NotFound();
+            }
+
             var model = this.mapper.Map<PublishArticleBindingModel>(article);
 
             return this.View(model);

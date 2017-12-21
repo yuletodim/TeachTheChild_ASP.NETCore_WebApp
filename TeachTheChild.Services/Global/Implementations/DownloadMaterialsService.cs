@@ -25,18 +25,20 @@
                 .ProjectTo<DownloadDetailsModel>()
                 .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<DownloadShortModel>> GetPortionAsync(int page, int pageSize)
+        public async Task<IEnumerable<DownloadShortModel>> GetPortionAsync(int page, int pageSize, string type)
             => await this.dbContext
                 .DownloadMaterials
+                .Where(d => type == null || type.ToLower() == d.Type.ToString().ToLower())
                 .OrderByDescending(p => p.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ProjectTo<DownloadShortModel>()
                 .ToListAsync();
 
-        public async Task<int> GetTotalCountAsync()
+        public async Task<int> GetTotalCountAsync(string type)
             => await this.dbContext
                 .DownloadMaterials
+                .Where(d => type == null || d.Type.ToString().ToLower() == type.ToLower())
                 .CountAsync();
 
         public async Task<string> GetPictureUrlAsync(int id)
@@ -56,5 +58,13 @@
                 await this.dbContext.SaveChangesAsync();
             }  
         }
+
+        public async Task<IEnumerable<DownloadShortModel>> GetLastThreeMost()
+            => await this.dbContext
+                .DownloadMaterials
+                .OrderByDescending(p => p.Id)
+                .Take(3)
+                .ProjectTo<DownloadShortModel>()
+                .ToListAsync();
     }
 }

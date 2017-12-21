@@ -96,7 +96,7 @@
             if (!(model.File.ContentType == WebConstants.JpgMimeType 
                 || model.File.ContentType == WebConstants.PngMimeType))
             {
-                TempData.AddErrorMessage(WebConstants.TooBigFile);
+                TempData.AddErrorMessage(WebConstants.NotSupportedFile);
                 return this.View(model);
             }
 
@@ -111,10 +111,7 @@
             }
 
             TempData.AddSuccessMessage(WebConstants.SaveDownloadsSuccess);
-            return this.RedirectToAction(
-                nameof(TeachTheChild.Web.Controllers.DownloadsController.Index),
-                "Downloads",
-                new { area = "" });
+            return this.RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

@@ -1,5 +1,6 @@
 ﻿namespace TeachTheChild.Web.Areas.Moderator.Models.Videos
 {
+    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
     using TeachTheChild.Common.Mappings;
     using TeachTheChild.Data;
@@ -18,8 +19,6 @@
         [MaxLength(DataConstants.VideoTitleMaxLength)]
         public string Title { get; set; }
 
-        [Required]
-        [Url]
         public string Url { get; set; }
 
         [MaxLength(DataConstants.VideoDescritpionMaxLength)]
@@ -29,5 +28,8 @@
         [MinLength(DataConstants.VideoSourceMinLength)]
         [MaxLength(DataConstants.VideoSourceMaxLength)]
         public string Source { get; set; }
+
+        [Required]
+        public IFormFile File { get; set; }
     }
 }

@@ -13,5 +13,15 @@
         Task<IEnumerable<ArticleShortModel>> GetPortionAsync(int page, int pageSize);
 
         Task<int> GetTotalCountAsync();
+
+        Task<bool> AddLikeAsync(string userId, int articleId, bool likeValue);
+
+        Task<bool> AddCommentAsync(string userId, int articleId, string content, int baseCommentId = 0);
+
+        Task<bool> AddCommentLikeAsync(string userId, int articleCommentId, bool likeValue);
+
+        Task<int> GetLikesByIdAsync(int id);
+
+        Task<int> GetDislikesByIdAsync(int id);
     }
 }

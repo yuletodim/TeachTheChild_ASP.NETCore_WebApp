@@ -4,16 +4,6 @@
     ViewData["Title"] = "Add Download Material";
 }
 
-@*<form asp-action="Add" method="post" enctype="multipart/form-data">
-
-    <input type="file" name="File" />
-
-
-
-    <button type="submit">Save</button>
-
-</form>*@
-
 <div class="row">
     <div class="col-md-4 align-to-logo">
         <div class="box">
@@ -51,6 +41,9 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $('#nav-moderator').addClass('active');
+    </script>
 }
 
 

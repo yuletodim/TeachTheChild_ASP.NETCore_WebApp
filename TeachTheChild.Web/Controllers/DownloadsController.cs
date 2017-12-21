@@ -20,16 +20,17 @@
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string type = null)
         {
-            var downloads = await this.downloadsService.GetPortionAsync(page, WebConstants.DownloadsPageSize);
-            var pagesCount = (int)Math.Ceiling(await this.downloadsService.GetTotalCountAsync() / (double)WebConstants.DownloadsPageSize);
+            var downloads = await this.downloadsService.GetPortionAsync(page, WebConstants.DownloadsPageSize, type);
+            var pagesCount = (int)Math.Ceiling(await this.downloadsService.GetTotalCountAsync(type) / (double)WebConstants.DownloadsPageSize);
 
             var data = new DownloadsPagingViewModel
             {
                 Downloads = downloads,
                 CurrentPage = page,
-                PagesCount = pagesCount
+                PagesCount = pagesCount,
+                Type = type
             };
 
             return View(data);
@@ -63,7 +64,10 @@
 
             await this.downloadsService.AddDownloadAsync(id);
 
-            return File(memory, "image/*", Path.GetFileName(path).Substring(0, 6));
+            return File(
+                memory, 
+                WebConstants.ImageType, 
+                $"{Path.GetFileName(path).Substring(0, 6)}_{DateTime.UtcNow.ToShortDateString()}{Path.GetFileName(path).Substring(Path.GetFileName(path).LastIndexOf('.'))}");
         }
     }
 }

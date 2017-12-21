@@ -96,5 +96,31 @@
                 .Where(b => b.Id == id)
                 .Select(b => b.PictureUrl)
                 .FirstOrDefaultAsync();
+
+        public async Task<BookFormModel> GetByIdAsync(int id)
+            => await this.dbContext
+                .Books
+                .Where(b => b.Id == id)
+                .ProjectTo<BookFormModel>()
+                .FirstOrDefaultAsync();
+
+        public async Task<bool> EditAsync(BookFormModel bookModel)
+        {
+            var book = await this.dbContext.Books.FindAsync(bookModel.Id);
+            if(book == null)
+            {
+                return false;
+            }
+
+            book.Title = bookModel.Title;
+            book.Author = bookModel.Author;
+            book.Publisher = bookModel.Publisher;
+            book.Descritpion = bookModel.Descritpion;
+            book.PictureUrl = bookModel.PictureUrl;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

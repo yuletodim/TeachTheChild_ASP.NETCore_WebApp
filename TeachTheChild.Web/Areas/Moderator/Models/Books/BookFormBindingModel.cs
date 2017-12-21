@@ -1,5 +1,6 @@
 ﻿namespace TeachTheChild.Web.Areas.Moderator.Models.Books
 {
+    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
     using TeachTheChild.Common.Mappings;
     using TeachTheChild.Data;
@@ -31,5 +32,7 @@
         public string Descritpion { get; set; }
 
         public string PictureUrl { get; set; }
+
+        public IFormFile File { get; set; }
     }
 }

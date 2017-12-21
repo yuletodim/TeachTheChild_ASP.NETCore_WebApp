@@ -1,36 +1,15 @@
-﻿@model Book
+﻿@model BookFormBindingModel
 
-<h2>@ViewData["Title"]</h2>
+@{
+    ViewData["Title"] = "Add Book";
+}
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
+@await Html.PartialAsync("_BookFormPartial", Model)
 
-            <div class="form-group">
-                <label asp-for="Author"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Description"></label>
-                <textarea asp-for="Description" class="form-control" cols="10"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-           
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
-    </div>
-</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $('#nav-moderator').addClass('active');
+    </script>
 }

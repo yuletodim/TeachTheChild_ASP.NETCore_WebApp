@@ -1,1 +1,56 @@
-﻿Videos
+﻿@model VideosPagingViewModel
+
+<div class="row box">
+    <div class="col-md-6">
+        @await Html.PartialAsync("_VideoPlayerPartial", Model.Video)
+
+        <div class="col-md-12 padded text-right">
+            <div class="likes-wrapper">
+                <button class="transparent-button btn-xs">
+                    <img class="like-button img-responsive like-video" data-id="@Model.Video.Id" data-likevalue="true" src="~/images/like.png">
+                </button>
+                <span class="material-likes">@Model.Video.Likes</span>
+            </div>
+            <div class="likes-wrapper">
+                <button class="transparent-button btn-xs">
+                    <img class="like-button img-responsive like-video" data-id="@Model.Video.Id" data-likevalue="false" src="~/images/dislike.png">
+                </button>
+                <span class="material-dislikes">@Model.Video.Dislikes</span>
+            </div>
+        </div>
+
+        <h2 class="h-title">Comments</h2>
+        <ul class="comments">
+            @foreach (var comment in Model.Video.Comments)
+            {
+                <li>
+                    <div><strong>@comment.User: </strong>@comment.Content</div>
+                    <div>@comment.Answers  answers; @comment.Likes likes; @comment.Dislikes dislikes;</div>
+                </li>
+            }
+        </ul>
+        <form method="post" asp-action="Comment" asp-route-id="@Model.Video.Id" class="comment-form">
+            <textarea name="Content" class="textarea-comment" cols="100" required></textarea>
+            <button class="btn btn-default btn-xs addComment" data-id="@Model.Video.Id">Comment</button>
+        </form>
+    </div>
+    
+    <div class="col-md-6">
+        @foreach (var video in Model.Videos)
+        {
+            <div class="h-title">
+                <h4 class="media-heading">@video.Title</h4>
+                <p>@video.Description</p>
+                <a asp-controller="Videos" asp-action="Index" asp-route-videoId="@video.Id" class="btn btn-primary">Play</a>
+            </div>
+            
+        }
+    </div>
+</div>
+    
+
+@section Scripts{
+    <script>
+        $('#nav-videos').addClass('active');
+    </script>
+}

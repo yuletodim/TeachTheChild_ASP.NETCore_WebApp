@@ -53,6 +53,15 @@ a:focus {
     color: #7cbecc;
 }
 
+.ul-line-list {
+    padding: 0;
+}
+
+.line-list {
+    display: inline-block;
+
+}
+
 /*Navbar - custom Yulia*/
 .navbar-default {
     border: none;
@@ -377,7 +386,6 @@ footer p {
 .btn.btn-primary:hover,
 .btn.btn-primary:focus {
     background: #7cbecc;
-
 }
 
 .h-title {
@@ -416,12 +424,13 @@ footer p {
 }
 
 .padded {
-    padding: 0 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
 }
 
 .likes-wrapper {
     margin-right: 20px;
     display: inline;
+    margin-top: 30px;
 }
 
 .like-button {
@@ -447,11 +456,33 @@ a.disabled {
 }
 
 .download-picture-small {
-    height: 420px !important
+    height: 400px !important
 }
 
 .download-picture-big {
-    max-width: 500px !important
+    max-width: 500px !important;
+}
+
+.download-active {
+    background-color: #7cbecc;
+    color: rgba(255,255,255,0.9);
+    border-color: #4597f4;
+}
+
+.book-panel {
+    height: 650px;
+}
+
+.panel-heading {
+    background-color: #a9f4e0 !important;
+    height: 80px;
+}
+
+.article-list {
+    border: 2px dotted #7cbecc;
+    border-radius: 5px;
+    padding: 25px;
+    margin-bottom: 35px;
 }
 
 /*colors : 

@@ -11,6 +11,8 @@
     using TeachTheChild.Services.Moderator.Models.Videos;
     using TeachTheChild.Web.Areas.Moderator.Models.Videos;
     using TeachTheChild.Web.Infrastructure.Constants;
+    using TeachTheChild.Web.Infrastructure.Extensions;
+    using TeachTheChild.Web.Infrastructure.Filters;
     using TeachTheChild.Web.Infrastructure.Helpers;
     using TeachTheChild.Web.Models;
 
@@ -76,6 +78,45 @@
         public IActionResult Add()
         {
             return this.View();
+        }
+
+        [HttpPost]
+        [ValidateModelState]
+        public async Task<IActionResult> Add(VideoFormBindingModel model)
+        {
+            model.UserId = this.userManager.GetUserId(this.User);
+            model.LanguageId = await this.usersService.GetUserLanguageIdAsync(model.UserId);
+
+            if (model.LanguageId == 0)
+            {
+                TempData.AddErrorMessage(WebConstants.SaveDownloadsError);
+                return this.View(model);
+            }
+
+            if (model.File != null)
+            {
+                if (!(model.File.ContentType == WebConstants.Mp4MimeType
+                || model.File.ContentType == WebConstants.PngMimeType))
+                {
+                    TempData.AddErrorMessage(WebConstants.NotSupportedFile);
+                    return this.View(model);
+                }
+
+                model.Url = await model.File.SaveToFileSystem(this.RootPath, WebConstants.VideosFolder);
+            }
+
+            var book = this.mapper.Map<VideoFormModel>(model);
+            var result = await this.videosService.AddAsync(book);
+            if (result == 0)
+            {
+                TempData.AddErrorMessage(WebConstants.SaveBookError);
+                return this.View(model);
+            }
+
+            TempData.AddSuccessMessage(WebConstants.SaveBookSuccess);
+            return this.RedirectToAction(nameof(TeachTheChild.Web.Controllers.VideosController.Index),
+                "Videos",
+                new { area = "" });
         }
 
         [HttpPost]

@@ -18,6 +18,8 @@
 
         public string PictureUrl { get; set; }
 
+        public string Descritpion { get; set; }
+
         public List<BookCommentModel> Comments { get; set; } = new List<BookCommentModel>();
 
         public int Likes { get; set; }

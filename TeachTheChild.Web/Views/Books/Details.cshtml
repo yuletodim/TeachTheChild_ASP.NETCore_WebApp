@@ -1,4 +1,83 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model BookDetailsModel
+@{
+    ViewData["Title"] = "Book Details";
+
+    var imgSrc = Model.PictureUrl != null ? Model.PictureUrl : "/images/book.png";
+
+}
+
+<div class="row">
+    <div class="col-md-12 align-to-logo">
+        @await Html.PartialAsync("_TipsPartial", WebConstants.AddBookTip)
+    </div>
+
+    <div class="col-md-12 align-to-logo">
+        <div class="box">
+            <div class="padded">
+                
+                <h2>@Model.Title</h2>
+                <div class="col-md-12 h-title">
+                    <div class="col-md-10 align-to-logo">
+                        <p class="blue-color align-to-logo"><strong>by @Model.Author</strong></p>
+                        <h4 class="align-to-logo">Publisher: @Model.Publisher</h4>
+                    </div>
+                    <div class="col-md-2 text-right align-to-right-edge">
+                        @if (User.IsInRole(DataConstants.AdminRole) || User.IsInRole(DataConstants.ModeratorRole))
+                        {
+                            <a asp-area="Moderator" asp-controller="Books" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary align-to-right-edge">Edit Book</a>
+                        }
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <img src="@imgSrc" class="img-responsive download-picture-small">
+                    </div>
+                    <div class="col-md-8">
+                        <p>@Model.Descritpion</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 padded text-right">
+                <div class="likes-wrapper">
+                    <button class="transparent-button btn-xs"><img class="like-button img-responsive" src="~/images/like.png"></button>
+                    <span class="material-likes">@Model.Likes</span>
+                </div>
+                <div class="likes-wrapper">
+                    <button class="transparent-button btn-xs"><img class="like-button img-responsive" src="~/images/dislike.png"></button>
+                    <span class="material-dislikes">@Model.Dislikes</span>
+                </div>
+            </div>
+
+            <h2 class="h-title">Comments</h2>
+            <ul class="comments">
+                @foreach (var comment in Model.Comments)
+                {
+                    <li>
+                        <div><strong>@comment.User: </strong>@comment.Content</div>
+                        <div>@comment.Answers  answers; @comment.Likes likes; @comment.Dislikes dislikes;</div>
+                    </li>
+                }
+            </ul>
+            <form method="post" asp-action="Comment" asp-route-id="@Model.Id" class="comment-form">
+                <textarea name="Content" class="textarea-comment" cols="100" required></textarea>
+                <button class="btn btn-default btn-xs addComment" data-id="@Model.Id">Comment</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts{
+    <script src="~/js/global/book-details.js"></script>
+    <script>
+        $('#nav-books').addClass('active');
+    </script>
+}

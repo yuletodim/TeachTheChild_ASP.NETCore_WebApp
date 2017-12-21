@@ -1,0 +1,11 @@
+﻿@model  ArticleShortModel
+
+<div class="col-md-12">
+    <div class="article-list">
+        <h4 class="h-title">@Model.Title</h4>
+        <p>
+            @Html.Raw(Model.ShortContent)
+            <a asp-controller="Articles" asp-action="Details" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToFriendlyUrl()"> continue reading...</a>
+        </p>
+    </div>
+</div>

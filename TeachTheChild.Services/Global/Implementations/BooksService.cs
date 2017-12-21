@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using TeachTheChild.Data;
+    using TeachTheChild.Data.Models.Books;
     using TeachTheChild.Services.Global.Contracts;
     using TeachTheChild.Services.Global.Models.Books;
 
@@ -47,5 +48,113 @@
             => await this.dbContext
                 .Books
                 .CountAsync();
+
+        public async Task<bool> AddLikeAsync(string userId, int bookId, bool likeValue)
+        {
+            var like = await this.dbContext
+                    .BookLikes
+                    .Where(b => b.BookId == bookId && b.UserId == userId)
+                    .FirstOrDefaultAsync();
+
+            if (like != null && like.IsLike == likeValue)
+            {
+                return false;
+            }
+            else if (like != null)
+            {
+                like.IsLike = likeValue;
+            }
+            else
+            {
+                await this.dbContext.AddAsync(new BookLike
+                {
+                    BookId = bookId,
+                    UserId = userId,
+                    IsLike = likeValue
+                });
+            }
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> AddCommentAsync(string userId, int bookId, string content, int baseCommentId = 0)
+        {
+            var book = await this.dbContext
+                .Books
+                .FirstOrDefaultAsync(a => a.Id == bookId);
+
+            if (book == null)
+            {
+                return false;
+            }
+
+            if (baseCommentId == 0)
+            {
+                book.Comments.Add(new BookComment { Content = content });
+            }
+            else
+            {
+                var comment = book.Comments.Where(c => c.Id == baseCommentId).FirstOrDefault();
+                if (comment == null)
+                {
+                    return false;
+                }
+
+                comment.Answers.Add(new BookComment
+                {
+                    Content = content,
+                    BaseCommentId = baseCommentId
+                });
+            }
+
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+        public async Task<bool> AddCommentLikeAsync(string userId, int bookCommentId, bool likeValue)
+        {
+            var like = await this.dbContext
+                    .BookCommentLikes
+                    .Where(b => b.BookCommentId == bookCommentId && b.UserId == userId)
+                    .FirstOrDefaultAsync();
+
+            if (like != null && like.IsLike == likeValue)
+            {
+                return false;
+            }
+            else if (like != null)
+            {
+                like.IsLike = likeValue;
+            }
+            else
+            {
+                await this.dbContext.AddAsync(new BookCommentLike
+                {
+                    BookCommentId = bookCommentId,
+                    UserId = userId,
+                    IsLike = likeValue
+                });
+            }
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<int> GetLikesByIdAsync(int id)
+            => await this.dbContext
+                    .BookLikes
+                    .Where(b => b.BookId == id && b.IsLike == true)
+                    .CountAsync();
+
+        public async Task<int> GetDislikesByIdAsync(int id)
+            => await this.dbContext
+                    .BookLikes
+                    .Where(b => b.BookId == id && b.IsLike == false)
+                    .CountAsync();
     }
 }
+

@@ -12,24 +12,28 @@
         private readonly IArticlesService articlesService;
         private readonly IBooksService booksService;
         private readonly IVideosService videosService;
+        private readonly IDownloadMaterialsService downloadsService;
 
         public HomeController(
             IArticlesService articlesService,
             IBooksService booksService,
-            IVideosService videosService)
+            IVideosService videosService,
+            IDownloadMaterialsService downloadsService)
         {
             this.articlesService = articlesService;
             this.booksService = booksService;
             this.videosService = videosService;
+            this.downloadsService = downloadsService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var model = new IndexViewModel
+            var model = new HomeIndexViewModel
             {
                 Articles = await this.articlesService.GetLastTreeAsync(),
                 Books = await this.booksService.GetLastTreeAsync(),
-                Video = await this.videosService.GetMostLikedAsync()
+                Video = await this.videosService.GetMostLikedAsync(),
+                Downloads = await this.downloadsService.GetLastThreeMost()
             };
 
             return View(model);

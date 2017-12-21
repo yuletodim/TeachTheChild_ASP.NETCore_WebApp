@@ -8,6 +8,8 @@
 
         public const string JpgMimeType = "image/jpeg";
         public const string PngMimeType = "image/png";
+        public const string ImageType = "image/*";
+        public const string Mp4MimeType = "video/mp4";
 
         public const string StaicFilesFolder = "wwwroot";
         public const string FilesFolder = "/Files";
@@ -18,7 +20,7 @@
         public const int MaxPictureLength = 2 * 1024 * 1024;
         public const int DownloadsPageSize = 6;
         public const int BooksPageSize = 9;
-        public const int ArticlesPageSize = 6;
+        public const int ArticlesPageSize = 2;
         public const int VideosPageSize = 10;
 
         // Areas
@@ -51,7 +53,7 @@
         public const string PublishArticleError = "Failed to save article.";
         public const string SaveBookError = "Failed to save book.";
         public const string SaveDownloadsError = "Failed to save material.";
-        public const string TooBigFile = "File size should be up to 2MB.";
+        public const string NotSupportedFile = "Not supported file format";
         public const string DeleteDownloadPictureEror = "Could not delte picture.";
 
         // Info messages
@@ -64,7 +66,9 @@
         public const string CreateArticleTip = "\"Imagination does not become great until human beings, given the courage and the strength, use it to create.\" Maria Montessori";
         public const string ViewArticleTip = "\"It is not enough for the teacher to love the child. She must first love and understand the universe. She must prepare herself, and truly work at it.\" Maria Montessori";
         public const string CreateDownloadsTip = "\"The environment must be rich in motives which lend interest to activity and invite the child to conduct his own experiences. .\" Maria Montessori";
-        public const string ViewDownloadsTip = "\"The first essential for the child’s development is concentration. The child who concentrates is immensely happy..\" Maria Montessori";
-
+        public const string ViewDownloadsTip = "\"The first essential for the child’s development is concentration. The child who concentrates is immensely happy.\" Maria Montessori";
+        public const string AddBookTip = "\"It is true that we cannot make a genius. We can only give to teach child the chance to fulfil his potential possibilities.\"  Maria Montessori";
+        public const string AddVideoTip = "\"Respect all the reasonable forms of activity in which the child engages and try to understand them.\"          Maria Montessori";
+        public const string IndexTip = "It is no easy to code while you are doing lego with your 6 years old :) Yulia ";
     }
 }

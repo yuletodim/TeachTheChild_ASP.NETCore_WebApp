@@ -13,5 +13,15 @@
         Task<int> GetTotalCountAsync();
 
         Task<BookDetailsModel> GetByIdAsync(int id);
+
+        Task<bool> AddLikeAsync(string userId, int bookId, bool likeValue);
+
+        Task<bool> AddCommentAsync(string userId, int bookId, string content, int baseCommentId = 0);
+
+        Task<bool> AddCommentLikeAsync(string userId, int bookCommentId, bool likeValue);
+
+        Task<int> GetLikesByIdAsync(int id);
+
+        Task<int> GetDislikesByIdAsync(int id);
     }
 }

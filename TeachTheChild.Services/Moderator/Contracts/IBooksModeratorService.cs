@@ -19,5 +19,9 @@
         Task<int> AddAsync(BookFormModel bookModel);
 
         Task<string> GetPictureUrlByIdAsync(int id);
+
+        Task<BookFormModel> GetByIdAsync(int id);
+
+        Task<bool> EditAsync(BookFormModel book);
     }
 }

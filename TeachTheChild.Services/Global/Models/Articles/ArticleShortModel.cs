@@ -15,7 +15,7 @@
         public void ApplyCustomMappings(Profile profile)
         {
             profile.CreateMap<Article, ArticleShortModel>()
-                .ForMember(a => a.ShortContent, opt => opt.MapFrom(a => a.Content.Substring(0, 250)));
+                .ForMember(a => a.ShortContent, opt => opt.MapFrom(a => a.Content.Substring(0, 750)));
         }
     }
 }

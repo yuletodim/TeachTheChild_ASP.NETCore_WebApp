@@ -21,7 +21,7 @@
             'columns': [
                 { 'data': 'title' },
                 { 'data': 'author' },
-                { 'data': 'userName' },
+                { 'data': 'user' },
                 {
                     'data': 'createdOn',
                     'render': function (createdOn) {
@@ -38,7 +38,7 @@
                     'render': function (data) {
                         var friendlyTitle = makeUrlSeoFriendly(data.title);
                         var buttons =
-                            '<div class="btn-group">' +
+                            '<div class="btn-group-vertical">' +
                                 '<a href="/books/' + data.id + '/' + friendlyTitle + '" class="btn btn-primary btn-sm">Book</a>' +
                                 '<button type="button" data-id="' + data.id + '" data-title="' + data.title + '" class="btn btn-primary btn-sm deleteBook">Delete</button>' +
                             '</div>';

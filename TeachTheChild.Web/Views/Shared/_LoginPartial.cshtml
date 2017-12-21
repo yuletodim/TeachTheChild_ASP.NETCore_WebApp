@@ -8,7 +8,7 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
+            <li class="dropdown" id="nav-profile">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     @UserManager.GetUserName(User)
                     <span class="caret"></span>
@@ -28,7 +28,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
+        <li id="nav-register"><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+        <li id="nav-login"><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
     </ul>
 }

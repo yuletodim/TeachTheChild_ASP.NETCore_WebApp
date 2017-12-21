@@ -1,0 +1,20 @@
+﻿@model BookShortModel
+
+@{ 
+    var imgSrc = Model.PictureUrl != null ? Model.PictureUrl : "/images/book.png";
+}
+
+<div class="col-md-4">
+    <div class="panel panel-default book-panel">
+        <div class="panel-heading">
+           <p><strong> @Model.Title</strong></p>
+        </div>
+        <div class="panel-body">
+            <img src="@imgSrc" class="img-responsive download-picture-small">
+
+            <p>By: <strong>@Model.Author</strong></p>
+            <p>Publisher: <strong>@Model.Publisher</strong></p>
+            <a asp-action="Details" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToFriendlyUrl()" class="btn btn-primary">Details</a>
+        </div>
+    </div>
+</div>

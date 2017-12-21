@@ -14,5 +14,7 @@
         public int PagesCount { get; set; }
 
         public int NextPage => this.CurrentPage == this.PagesCount ? this.PagesCount : this.CurrentPage + 1;
+
+        public string Type { get; set; }
     }
 }

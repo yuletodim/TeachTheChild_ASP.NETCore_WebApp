@@ -12,7 +12,7 @@
             'filter': true,
             'orderMulti': false,
             'scrollX': true,
-            'order': [[3, 'desc']],
+            'order': [[2, 'desc']],
             'ajax': {
                 'url': url,
                 'type': 'POST'

@@ -19,13 +19,12 @@
 function makeUrlSeoFriendly(url) {
     var encodedUrl = url.toLowerCase();
     encodedUrl = encodedUrl.split(/\&+/).join("-and-")
-    encodedUrl = encodedUrl.split(/[^a-z0-9]/).join("-");
+    encodedUrl = encodedUrl.split(/[^a-z0-9а-я]/).join("-");
     encodedUrl = encodedUrl.split(/-+/).join("-");
     encodedUrl = encodedUrl.trim('-');
 
     return encodedUrl; 
 }
-
    
 $(window).load(function () {
     setFooterPosition();
