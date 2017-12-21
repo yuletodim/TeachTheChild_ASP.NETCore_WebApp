@@ -2,14 +2,15 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using TeachTheChild.Common.Extensions;
     using TeachTheChild.Data;
+    using TeachTheChild.Data.Models.DownloadMaterials;
     using TeachTheChild.Services.Moderator.Contracts;
     using TeachTheChild.Services.Moderator.Models.Downloads;
-    using System.Threading.Tasks;
-    using TeachTheChild.Data.Models.DownloadMaterials;
 
     public class DownloadMaterialsModeratorService : IDownloadMaterialsModeratorService
     {
@@ -72,5 +73,12 @@
 
             return article.Id;
         }
+
+        public async Task<string> GetPictureUrlByIdAsync(int id)
+            => await this.dbContext
+                .DownloadMaterials
+                .Where(d => d.Id == id)
+                .Select(d => d.PictureUrl)
+                .FirstOrDefaultAsync();
     }
 }

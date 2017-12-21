@@ -9,5 +9,9 @@
         Task<IEnumerable<ArticleShortModel>> GetLastTreeAsync();
 
         Task<ArticleDetailsModel> GetByIdAsync(int id);
+
+        Task<IEnumerable<ArticleShortModel>> GetPortionAsync(int page, int pageSize);
+
+        Task<int> GetTotalCountAsync();
     }
 }

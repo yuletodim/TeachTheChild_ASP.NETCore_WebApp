@@ -16,16 +16,6 @@
     }
 }
 
-function showUserDetails(e) {
-    var userId = $(e.target).data('id');
-    var url = '/Admin/Users/GetUserAjax?id=' + userId;
-    $.get(url, function (data) {
-        var dialog = bootbox.dialog({
-            message: data
-        });
-    });
-}
-
 function makeUrlSeoFriendly(url) {
     var encodedUrl = url.toLowerCase();
     encodedUrl = encodedUrl.split(/\&+/).join("-and-")
@@ -43,7 +33,5 @@ $(window).load(function () {
     $(window).on('resize', setFooterPosition);
 
     toastr.options = { 'positionClass': 'toast-top-center' };
-
-    $(document).on('click', '.userDetails', showUserDetails);
 });
 

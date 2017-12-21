@@ -2,6 +2,7 @@
     $(document).ready(function () {
         loadUsersDatatable('#usersTable', '/Admin/Users/LoadDatatableAjax');
         $(document).on('click', '.add-to-role', addUserToRole);
+        $(document).on('click', '.userDetails', showUserDetails);
     });
 
     function loadUsersDatatable(selector, url) {
@@ -55,6 +56,16 @@
                 },
                 'processing': '<img src="/images/loading.gif">'
             }
+        });
+    }
+
+    function showUserDetails(e) {
+        var userId = $(e.target).data('id');
+        var url = '/Admin/Users/GetUserAjax?id=' + userId;
+        $.get(url, function (data) {
+            var dialog = bootbox.dialog({
+                message: data
+            });
         });
     }
 

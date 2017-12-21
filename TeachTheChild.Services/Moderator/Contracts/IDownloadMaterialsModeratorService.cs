@@ -13,9 +13,11 @@
             string sortDir,
             string search,
             out int count);
-
+        
         Task<bool> DeleteAsync(int id);
 
         Task<int> AddAsync(DownloadsFormModel article);
+
+        Task<string> GetPictureUrlByIdAsync(int id);
     }
 }

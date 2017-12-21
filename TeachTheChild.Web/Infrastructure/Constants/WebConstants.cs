@@ -16,6 +16,10 @@
         public const string VideosFolder = "/Videos";
 
         public const int MaxPictureLength = 2 * 1024 * 1024;
+        public const int DownloadsPageSize = 6;
+        public const int BooksPageSize = 9;
+        public const int ArticlesPageSize = 6;
+        public const int VideosPageSize = 10;
 
         // Areas
         public const string AdminArea = "Admin";
@@ -48,6 +52,7 @@
         public const string SaveBookError = "Failed to save book.";
         public const string SaveDownloadsError = "Failed to save material.";
         public const string TooBigFile = "File size should be up to 2MB.";
+        public const string DeleteDownloadPictureEror = "Could not delte picture.";
 
         // Info messages
         public const string UserNoPermissionsEdit = "Only author can edit their materials.";

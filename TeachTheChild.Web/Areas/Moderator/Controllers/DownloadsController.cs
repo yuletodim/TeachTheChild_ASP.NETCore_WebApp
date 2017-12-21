@@ -4,7 +4,6 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Threading.Tasks;
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Global.Contracts;
@@ -14,6 +13,7 @@
     using TeachTheChild.Web.Infrastructure.Constants;
     using TeachTheChild.Web.Infrastructure.Extensions;
     using TeachTheChild.Web.Infrastructure.Filters;
+    using TeachTheChild.Web.Infrastructure.Helpers;
     using TeachTheChild.Web.Models;
 
     public class DownloadsController : BaseModeratorControler
@@ -36,6 +36,14 @@
             this.usersService = usersService;
             this.mapper = mapper;
             this.hostingEnvironment = hostingEnvironment;
+        }
+
+        private string RootPath
+        {
+            get
+            {
+                return this.hostingEnvironment.WebRootPath;
+            }
         }
 
         public IActionResult Index()
@@ -92,9 +100,7 @@
                 return this.View(model);
             }
 
-            var rootPath = this.hostingEnvironment.WebRootPath;
-
-            model.PictureUrl = await model.File.SaveToFileSystem(rootPath, WebConstants.DownloadsFolder);
+            model.PictureUrl = await model.File.SaveToFileSystem(this.RootPath, WebConstants.DownloadsFolder);
 
             var downloads = this.mapper.Map<DownloadsFormModel>(model);
             var result = await this.downloadsService.AddAsync(downloads);
@@ -106,16 +112,27 @@
 
             TempData.AddSuccessMessage(WebConstants.SaveDownloadsSuccess);
             return this.RedirectToAction(
-                nameof(TeachTheChild.Web.Controllers.DownloadsController.Details),
+                nameof(TeachTheChild.Web.Controllers.DownloadsController.Index),
                 "Downloads",
-                new { area = "", id = result });
+                new { area = "" });
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete([FromBody]DeleteDownloadsBindingModel model)
         {
-            // delete pic
-            var result = await this.downloadsService.DeleteAsync(model.Id);
+            var pictureUrl = await this.downloadsService.GetPictureUrlByIdAsync(model.Id);
+            if (pictureUrl == null)
+            {
+                return this.BadRequest(WebConstants.DeleteDownloadPictureEror);
+            }
+
+            var result = FileHelpers.Delete($"{this.RootPath}{pictureUrl}");
+            if(!result)
+            {
+                return this.BadRequest(WebConstants.DeleteDownloadPictureEror);
+            }
+
+            result = await this.downloadsService.DeleteAsync(model.Id);
 
             return this.Json(new { success = result });
         }

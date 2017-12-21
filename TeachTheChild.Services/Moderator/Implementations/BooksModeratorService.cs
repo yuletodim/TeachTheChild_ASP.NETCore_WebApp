@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -88,5 +89,12 @@
 
             return book.Id;
         }
+
+        public async Task<string> GetPictureUrlByIdAsync(int id)
+            => await this.dbContext
+                .Books
+                .Where(b => b.Id == id)
+                .Select(b => b.PictureUrl)
+                .FirstOrDefaultAsync();
     }
 }

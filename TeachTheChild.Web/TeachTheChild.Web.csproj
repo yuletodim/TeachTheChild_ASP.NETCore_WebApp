@@ -50,11 +50,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Articles\" />
-    <Folder Include="Models\Books\" />
-    <Folder Include="Models\DownloadMaterials\" />
-    <Folder Include="Models\Videos\" />
     <Folder Include="wwwroot\Files\Downloads\" />
+    <Folder Include="wwwroot\Files\Books\" />
+    <Folder Include="wwwroot\Files\Videos\" />
   </ItemGroup>
 
   <ItemGroup>

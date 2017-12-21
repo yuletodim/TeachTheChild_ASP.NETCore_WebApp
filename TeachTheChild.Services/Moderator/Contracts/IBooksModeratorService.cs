@@ -17,5 +17,7 @@
         Task<bool> DeleteAsync(int id);
 
         Task<int> AddAsync(BookFormModel bookModel);
+
+        Task<string> GetPictureUrlByIdAsync(int id);
     }
 }

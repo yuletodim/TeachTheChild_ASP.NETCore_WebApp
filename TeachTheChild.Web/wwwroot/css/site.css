@@ -442,6 +442,18 @@ footer p {
     font-size: 1.4em;
 }
 
+a.disabled {
+    pointer-events: none;
+}
+
+.download-picture-small {
+    height: 420px !important
+}
+
+.download-picture-big {
+    max-width: 500px !important
+}
+
 /*colors : 
     aqua: #7cbecc; 
     light aqua: #a9f4e0;

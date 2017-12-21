@@ -1,8 +1,56 @@
 ﻿@model DownloadsFormBindingModel
 
-<form asp-action="Add" method="post"
-      enctype="multipart/form-data">
+@{
+    ViewData["Title"] = "Add Download Material";
+}
+
+@*<form asp-action="Add" method="post" enctype="multipart/form-data">
 
     <input type="file" name="File" />
-    <button type="submit">Upload File</button>
-</form>
+
+
+
+    <button type="submit">Save</button>
+
+</form>*@
+
+<div class="row">
+    <div class="col-md-4 align-to-logo">
+        <div class="box">
+            <form method="post" asp-action="Add" enctype="multipart/form-data">
+                <h4>@ViewData["Title"]</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Type"></label>
+                    <select asp-for="Type" asp-items="Html.GetEnumSelectList<DownloadMaterialType>()" class="form-control"></select>
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="File"></label>
+                    <input asp-for="File"class="form-control" accept="image/*,.jpg,.png" required/>
+                    <span asp-validation-for="File" class="text-danger"></span>
+                    <span class="info">Alowed formats *.jpg and *.png.</span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+              
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-5 col-md-offset-2 ">
+        @await Html.PartialAsync("_TipsPartial", WebConstants.CreateDownloadsTip)
+    </div>
+</div>
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+

@@ -35,7 +35,7 @@
                     'render': function (id) {
                         var buttons =
                             '<div class="btn-group">' +
-                                '<a href="/downloads/details/' + id + '" class="btn btn-primary btn-sm">Picture</a>'
+                            '<a href="javascript:;" class="btn btn-primary btn-sm view-picture" data-id="' + id + '">Picture</a>' +
                                 '<button type="button" data-id="' + id + '" class="btn btn-primary btn-sm deleteDownload">Delete</button>' +
                             '</div>';
 

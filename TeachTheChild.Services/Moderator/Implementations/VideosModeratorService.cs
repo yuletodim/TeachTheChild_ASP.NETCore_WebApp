@@ -10,6 +10,7 @@
     using TeachTheChild.Services.Moderator.Models.Videos;
     using System.Threading.Tasks;
     using TeachTheChild.Data.Models.Videos;
+    using Microsoft.EntityFrameworkCore;
 
     public class VideosModeratorService : IVideosModeratorService
     {
@@ -74,5 +75,12 @@
 
             return video.Id;
         }
+
+        public async Task<string> GetUrlByIdAsync(int id)
+            => await this.dbContext
+                .Videos
+                .Where(v => v.Id == id)
+                .Select(v => v.Url)
+                .FirstOrDefaultAsync();
     }
 }

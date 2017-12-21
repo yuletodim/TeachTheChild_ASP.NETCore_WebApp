@@ -1,7 +1,11 @@
 ﻿namespace TeachTheChild.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Threading.Tasks;
     using TeachTheChild.Services.Global.Contracts;
+    using TeachTheChild.Web.Infrastructure.Constants;
+    using TeachTheChild.Web.Models.Books;
 
     public class BooksController : BaseController
     {
@@ -12,27 +16,22 @@
             this.booksService = booksService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return this.View();
+            var books = await this.booksService.GetPortionAsync(page, WebConstants.BooksPageSize);
+            var pagesCount = (int)Math.Ceiling(await this.booksService.GetTotalCountAsync() / (double)WebConstants.BooksPageSize);
+
+            var data = new BooksPagingViewModel
+            {
+                Books = books,
+                CurrentPage = page,
+                PagesCount = pagesCount
+            };
+
+            return View(data);
         }
 
-        public IActionResult Add()
-            => this.View();
-        
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Add(Book model )
-        //{
-        //    if (!this.ModelState.IsValid)
-        //    {
-        //        return this.View(model);
-        //    }
-
-        //    await this.booksService.AddBook(model);
-
-        //    return this.RedirectToAction(nameof(HomeController.Index), "Home");
-        //}
+        public async Task<IActionResult> Details(int id)
+               => this.View(await this.booksService.GetByIdAsync(id));
     }
 }

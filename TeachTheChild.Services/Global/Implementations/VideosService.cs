@@ -5,7 +5,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using TeachTheChild.Data;
     using TeachTheChild.Services.Global.Contracts;
@@ -32,9 +31,40 @@
 
             return videos.FirstOrDefault();
         }
-        
 
+        public async Task<int> GetTotalCountAsync()
+            => await this.dbContext
+                .Videos
+                .CountAsync();
 
+        public async Task<VideoDetailsModel> GetByIdAsync(int? id = null)
+        {
+            var query = this.dbContext.Videos.AsQueryable();
+
+            if (id.HasValue)
+            {
+                return await query
+                    .Where(a => a.Id == id)
+                    .ProjectTo<VideoDetailsModel>()
+                    .FirstOrDefaultAsync();
+            }
+            else
+            {
+                return await query
+                    .OrderByDescending(v => v.CreatedOn)
+                    .ProjectTo<VideoDetailsModel>()
+                    .FirstOrDefaultAsync();
+            }             
+        }
+
+        public async Task<IEnumerable<VideoShortModel>> GetPortionAsync(int page, int pageSize)
+            => await this.dbContext
+                .Videos
+                .OrderByDescending(p => p.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ProjectTo<VideoShortModel>()
+                .ToListAsync();
 
     }
 }

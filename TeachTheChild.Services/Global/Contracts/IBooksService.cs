@@ -7,5 +7,11 @@
     public interface IBooksService
     {
         Task<IEnumerable<BookShortModel>> GetLastTreeAsync();
+
+        Task<IEnumerable<BookShortModel>> GetPortionAsync(int page, int pageSize);
+
+        Task<int> GetTotalCountAsync();
+
+        Task<BookDetailsModel> GetByIdAsync(int id);
     }
 }

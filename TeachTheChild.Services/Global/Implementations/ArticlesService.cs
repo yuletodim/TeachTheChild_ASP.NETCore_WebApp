@@ -2,7 +2,6 @@
 {
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -30,16 +29,25 @@
 
 
         public async Task<ArticleDetailsModel> GetByIdAsync(int id)
-        {
-            var b =  await this.dbContext
+            =>  await this.dbContext
                 .Articles
                 .Where(a => a.Id == id)
                 .ProjectTo<ArticleDetailsModel>()
                 .FirstOrDefaultAsync();
 
-            return b;
-        }
 
+        public async Task<IEnumerable<ArticleShortModel>> GetPortionAsync(int page, int pageSize)
+            => await this.dbContext
+                .Articles
+                .OrderByDescending(p => p.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ProjectTo<ArticleShortModel>()
+                .ToListAsync();
 
+        public async Task<int> GetTotalCountAsync()
+            => await this.dbContext
+                .Articles
+                .CountAsync();
     }
 }

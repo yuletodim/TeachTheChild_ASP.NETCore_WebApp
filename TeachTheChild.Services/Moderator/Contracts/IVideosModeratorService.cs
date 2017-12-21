@@ -17,5 +17,7 @@
         Task<bool> DeleteAsync(int id);
 
         Task<int> AddAsync(VideoFormModel videoModel);
+
+        Task<string> GetUrlByIdAsync(int id);
     }
 }

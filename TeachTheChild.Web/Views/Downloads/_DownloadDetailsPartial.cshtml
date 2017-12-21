@@ -1,0 +1,16 @@
+﻿@model DownloadDetailsModel
+
+<div id="user-details">
+    <ul class="user-details text-center">
+        <li class="bootbox-header">
+            <h4><strong>Type:</strong> @Model.Type.ToString() </h4>
+            <span id="downloadsCount">@Model.Downloads</span> downloads
+        </li>
+        <li>
+            <img src="@Model.PictureUrl" class="img-responsive download-picture-big"/>
+        </li>
+        <li>
+            <button class="btn btn-primary download-picture" data-id="@Model.Id">Download</button>
+        </li>
+    </ul>
+</div>
