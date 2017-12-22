@@ -485,6 +485,11 @@ a.disabled {
     margin-bottom: 35px;
 }
 
+
+ul#comments-list > li {
+    list-style: none;
+}
+
 /*colors : 
     aqua: #7cbecc; 
     light aqua: #a9f4e0;

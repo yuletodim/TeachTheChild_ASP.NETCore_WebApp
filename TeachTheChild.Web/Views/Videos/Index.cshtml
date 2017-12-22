@@ -1,41 +1,90 @@
 ﻿@model VideosPagingViewModel
 
+@{
+    ViewData["Title"] = "Videos";
+    var previouseDisbaled = Model.CurrentPage == 1 ? "disabled" : string.Empty;
+    var nextDisbaled = Model.CurrentPage == Model.PagesCount ? "disabled" : string.Empty;
+}
+
+<input type="hidden" value="@User.Identity.Name" id="currentUser" />
+
+<div class="row">
+    @await Html.PartialAsync("_TipsPartial", WebConstants.AddVideoTip)
+</div>
+
 <div class="row box">
     <div class="col-md-6">
         @await Html.PartialAsync("_VideoPlayerPartial", Model.Video)
 
         <div class="col-md-12 padded text-right">
             <div class="likes-wrapper">
-                <button class="transparent-button btn-xs">
-                    <img class="like-button img-responsive like-video" data-id="@Model.Video.Id" data-likevalue="true" src="~/images/like.png">
+                <button class="transparent-button btn-xs like-video" data-id="@Model.Video.Id" data-likevalue="true">
+                    <img class="like-button img-responsive" data-id="@Model.Video.Id" data-likevalue="true" src="~/images/like.png" />
                 </button>
-                <span class="material-likes">@Model.Video.Likes</span>
+                <span id="material-likes">@Model.Video.Likes</span>
             </div>
             <div class="likes-wrapper">
-                <button class="transparent-button btn-xs">
-                    <img class="like-button img-responsive like-video" data-id="@Model.Video.Id" data-likevalue="false" src="~/images/dislike.png">
+                <button class="transparent-button btn-xs like-video" data-id="@Model.Video.Id" data-likevalue="false">
+                    <img class="like-button img-responsive like-video" data-id="@Model.Video.Id" data-likevalue="false" src="~/images/dislike.png" />
                 </button>
-                <span class="material-dislikes">@Model.Video.Dislikes</span>
+                <span id="material-dislikes">@Model.Video.Dislikes</span>
             </div>
         </div>
 
         <h2 class="h-title">Comments</h2>
-        <ul class="comments">
-            @foreach (var comment in Model.Video.Comments)
+        <div class="col-md-12">
+            @if (Model.Video.Comments.Count() == 0)
             {
-                <li>
-                    <div><strong>@comment.User: </strong>@comment.Content</div>
-                    <div>@comment.Answers  answers; @comment.Likes likes; @comment.Dislikes dislikes;</div>
-                </li>
+                <p id="noComment">No comments yet. Be first :)</p>
+                <ul id="comments-list"></ul>
             }
-        </ul>
-        <form method="post" asp-action="Comment" asp-route-id="@Model.Video.Id" class="comment-form">
-            <textarea name="Content" class="textarea-comment" cols="100" required></textarea>
-            <button class="btn btn-default btn-xs addComment" data-id="@Model.Video.Id">Comment</button>
-        </form>
+            else
+            {
+                <ul id="comments-list">
+                    @foreach (var comment in Model.Video.Comments)
+                    {
+                        <li class="h-title">
+                            <div><strong>@comment.User: </strong>@comment.Content</div>
+                            @*<div>@comment.Answers  answers; @comment.Likes likes; @comment.Dislikes dislikes;</div>*@
+                        </li>
+                    }
+                </ul>
+            }
+            
+            <form class="comment-form">
+                <input type="hidden" value="@Model.Video.Id" name="Id" />
+                <div class="form-group">
+                    <textarea name="Content" id="textarea-comment" cols="70" required></textarea>
+                </div>
+                <button class="btn btn-sm btn-default" type="submit" id="addComment">Comment</button>
+            </form>
+        </div>
+
     </div>
     
     <div class="col-md-6">
+        <div class="col-md-12 text-right h-title">
+            <ul class="pagination">
+                <li class="page-item @previouseDisbaled">
+                    <a class="page-link @previouseDisbaled" href="/videos?page=@Model.PreviousePage" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                @for (int i = 1; i <= Model.PagesCount; i++)
+                {
+                    var activeState = Model.CurrentPage == i ? "active" : string.Empty;
+                    <li class="page-item @activeState"><a class="page-link" href="/videos?page=@i">@i</a></li>
+                }
+                <li class="page-item @nextDisbaled">
+                    <a class="page-link @nextDisbaled" href="/videos?page=@Model.NextPage" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         @foreach (var video in Model.Videos)
         {
             <div class="h-title">
@@ -50,6 +99,8 @@
     
 
 @section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/js/global/videos.js"></script>
     <script>
         $('#nav-videos').addClass('active');
     </script>

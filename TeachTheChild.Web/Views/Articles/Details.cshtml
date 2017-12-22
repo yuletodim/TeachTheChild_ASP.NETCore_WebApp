@@ -5,6 +5,8 @@
     ViewData["Title"] = "Article";
 }
 
+<input type="hidden" value="@User.Identity.Name" id="currentUser" />
+
 <div class="row">
     <div class="col-md-12 align-to-logo">
         @await Html.PartialAsync("_TipsPartial", WebConstants.ViewArticleTip)
@@ -35,35 +37,53 @@
            
             <div class="col-md-12 padded text-right">
                 <div class="likes-wrapper">
-                    <button class="transparent-button btn-xs"><img class="like-button img-responsive" src="~/images/like.png"></button>
-                    <span class="material-likes">@Model.Likes</span>
+                    <button class="transparent-button btn-xs like-article" data-id="@Model.Id" data-likevalue="true">
+                        <img class="like-button img-responsive" src="~/images/like.png" data-id="@Model.Id" data-likevalue="true" />
+                    </button>
+                    <span id="material-likes">@Model.Likes</span>
                 </div>
                 <div class="likes-wrapper">
-                    <button class="transparent-button btn-xs"><img class="like-button img-responsive" src="~/images/dislike.png"></button>
-                    <span class="material-dislikes">@Model.Dislikes</span>
+                    <button class="transparent-button btn-xs like-article" data-id="@Model.Id" data-likevalue="false">
+                        <img class="like-button img-responsive" src="~/images/dislike.png" data-id="@Model.Id" data-likevalue="false" />
+                    </button>
+                    <span id="material-dislikes">@Model.Dislikes</span>
                 </div>
             </div>
 
             <h2 class="h-title">Comments</h2>
-            <ul class="comments">
-                @foreach (var comment in Model.Comments)
+            <div class="col-md-6">
+                @if (Model.Comments.Count() == 0)
                 {
-                    <li>
-                        <div><strong>@comment.User: </strong>@comment.Content</div>
-                        <div>@comment.Answers  answers; @comment.Likes likes; @comment.Dislikes dislikes;</div>
-                    </li>
+                    <p id="noComment">No comments yet. Be first :)</p>
+                    <ul id="comments-list"></ul>
                 }
-            </ul>
-            <form method="post" asp-controller="Users" asp-action="AddToRole" class="comment-form">
-                <textarea name="Content" class="textarea-comment" cols="100" required></textarea>
-                <button class="btn btn-default btn-xs addComment" data-id="@Model.Id">Comment</button>
-            </form>
+                else
+                {
+                <ul id="comments-list">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <li class="h-title">
+                            <div><strong>@comment.User: </strong>@comment.Content</div>
+                            @*<div>@comment.Answers  answers; @comment.Likes likes; @comment.Dislikes dislikes;</div>*@
+                        </li>
+                    }
+                </ul>
+                }
 
+                <form class="comment-form">
+                    <input type="hidden" value="@Model.Id" name="Id" />
+                    <div class="form-group">
+                        <textarea name="Content" id="textarea-comment" cols="80" required></textarea>
+                    </div>
+                    <button class="btn btn-sm btn-default" type="submit" id="addComment">Comment</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts{ 
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script src="~/js/global/article-details.js"></script>
     <script>
         $('#nav-articles').addClass('active');

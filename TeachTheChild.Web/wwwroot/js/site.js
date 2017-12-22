@@ -25,6 +25,8 @@ function makeUrlSeoFriendly(url) {
 
     return encodedUrl; 
 }
+
+
    
 $(window).load(function () {
     setFooterPosition();

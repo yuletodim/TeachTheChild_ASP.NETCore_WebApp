@@ -96,7 +96,7 @@
             return true;
         }
 
-        public async Task<bool> AddCommentAsync(string userId, int videoId, string content, int baseCommentId = 0)
+        public async Task<bool> AddCommentAsync(string userId, int videoId, string content, int? baseCommentId = null)
         {
             var video = await this.dbContext
                 .Videos
@@ -107,9 +107,13 @@
                 return false;
             }
 
-            if (baseCommentId == 0)
+            if (baseCommentId == null)
             {
-                video.Comments.Add(new VideoComment { Content = content });
+                video.Comments.Add(new VideoComment
+                {
+                    UserId = userId,
+                    Content = content
+                });
             }
             else
             {
@@ -121,6 +125,7 @@
 
                 comment.Answers.Add(new VideoComment
                 {
+                    UserId = userId,
                     Content = content,
                     BaseCommentId = baseCommentId
                 });

@@ -5,6 +5,12 @@
     <UserSecretsId>aspnet-TeachTheChild.Web-13209299-E766-4623-9DD8-41A18B705B9B</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="favicon.ico">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />

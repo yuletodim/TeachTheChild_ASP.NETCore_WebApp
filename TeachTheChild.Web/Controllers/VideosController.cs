@@ -7,6 +7,7 @@
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Global.Contracts;
     using TeachTheChild.Web.Infrastructure.Constants;
+    using TeachTheChild.Web.Models;
     using TeachTheChild.Web.Models.Videos;
 
     public class VideosController : BaseController
@@ -37,15 +38,34 @@
             return View(data);
         }
 
-        public async Task<IActionResult> LikeVideoAjax(int id, bool likeVideo)
+        [HttpPost]
+        public async Task<IActionResult> LikeVideoAjax([FromBody]LikeFormBindingModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { success = false });
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
-            var result = await this.videosService.AddLikeAsync(userId, id, likeVideo);
-            var likes = await this.videosService.GetLikesByIdAsync(id);
-            var dislikes = await this.videosService.GetDislikesByIdAsync(id);
+            var result = await this.videosService.AddLikeAsync(userId, model.Id, model.IsLike);
+            var likes = await this.videosService.GetLikesByIdAsync(model.Id);
+            var dislikes = await this.videosService.GetDislikesByIdAsync(model.Id);
 
             return this.Json(new { success = result, likes = likes, dislikes = dislikes });
+        }
+
+        public async Task<IActionResult> AddCommentAjax(CommentFormBindingModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { success = false });
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+            var result = await this.videosService.AddCommentAsync(userId, model.Id, model.Content, model.CommentId);
+
+            return this.Json(new { success = result });
         }
     }
 }

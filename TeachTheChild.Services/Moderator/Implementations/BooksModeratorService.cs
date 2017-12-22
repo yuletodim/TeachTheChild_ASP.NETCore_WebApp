@@ -116,8 +116,11 @@
             book.Author = bookModel.Author;
             book.Publisher = bookModel.Publisher;
             book.Descritpion = bookModel.Descritpion;
-            book.PictureUrl = bookModel.PictureUrl;
-
+            if (bookModel.PictureUrl != null)
+            {
+                book.PictureUrl = bookModel.PictureUrl;
+            }
+            
             await this.dbContext.SaveChangesAsync();
 
             return true;

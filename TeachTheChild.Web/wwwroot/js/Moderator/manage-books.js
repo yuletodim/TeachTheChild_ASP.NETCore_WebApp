@@ -13,6 +13,7 @@
             'orderMulti': false,
             'scrollX': true,
             'order': [[3, 'desc']],
+            'pageLength': 5,
             'ajax': {
                 'url': url,
                 'type': 'POST'

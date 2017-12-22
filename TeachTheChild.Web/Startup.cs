@@ -35,18 +35,18 @@
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication()
-                .AddFacebook(fbOptions => 
+                .AddFacebook(fbOptions =>
                 {
                     fbOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                     fbOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 })
-                .AddGoogle(googleOptions => 
+                .AddGoogle(googleOptions =>
                 {
                     googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 });
 
-            
+
             services.AddDomainServices();
 
             services.AddAutoMapper();

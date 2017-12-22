@@ -1,7 +1,9 @@
 ﻿namespace TeachTheChild.Services.Global.Implementations
 {
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,10 +15,12 @@
     public class ArticlesService : IArticlesService
     {
         private TeachTheChildDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public ArticlesService(TeachTheChildDbContext dbContext)
+        public ArticlesService(TeachTheChildDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<ArticleShortModel>> GetLastTreeAsync()
@@ -81,20 +85,24 @@
             return true;
         }
 
-        public async Task<bool> AddCommentAsync(string userId, int articleId, string content, int baseCommentId = 0)
+        public async Task<bool> AddCommentAsync(string userId, int articleId, string content, int? baseCommentId = null)
         {
             var article = await this.dbContext
                 .Articles
                 .FirstOrDefaultAsync(a => a.Id == articleId);
-
+            
             if (article == null)
             {
                 return false;
             }
 
-            if (baseCommentId == 0)
+            if (baseCommentId == null)
             {
-                article.Comments.Add(new ArticleComment { Content = content });
+                article.Comments.Add(new ArticleComment
+                {
+                    UserId = userId,
+                    Content = content
+                });
             }
             else
             {
@@ -106,11 +114,12 @@
 
                 comment.Answers.Add(new ArticleComment
                 {
+                    UserId = userId,
                     Content = content,
                     BaseCommentId = baseCommentId
                 });
             }
-         
+
             await this.dbContext.SaveChangesAsync();
 
             return true;

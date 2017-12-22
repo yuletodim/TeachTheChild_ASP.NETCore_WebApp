@@ -79,7 +79,7 @@
             return true;
         }
 
-        public async Task<bool> AddCommentAsync(string userId, int bookId, string content, int baseCommentId = 0)
+        public async Task<bool> AddCommentAsync(string userId, int bookId, string content, int? baseCommentId = null)
         {
             var book = await this.dbContext
                 .Books
@@ -90,9 +90,13 @@
                 return false;
             }
 
-            if (baseCommentId == 0)
+            if (baseCommentId == null)
             {
-                book.Comments.Add(new BookComment { Content = content });
+                book.Comments.Add(new BookComment
+                {
+                    UserId = userId,
+                    Content = content
+                });
             }
             else
             {
@@ -104,6 +108,7 @@
 
                 comment.Answers.Add(new BookComment
                 {
+                    UserId = userId,
                     Content = content,
                     BaseCommentId = baseCommentId
                 });
@@ -114,6 +119,7 @@
 
             return true;
         }
+
         public async Task<bool> AddCommentLikeAsync(string userId, int bookCommentId, bool likeValue)
         {
             var like = await this.dbContext

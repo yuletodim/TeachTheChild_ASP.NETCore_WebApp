@@ -16,7 +16,7 @@
 
         Task<bool> AddLikeAsync(string userId, int articleId, bool likeValue);
 
-        Task<bool> AddCommentAsync(string userId, int articleId, string content, int baseCommentId = 0);
+        Task<bool> AddCommentAsync(string userId, int articleId, string content, int? baseCommentId = null);
 
         Task<bool> AddCommentLikeAsync(string userId, int articleCommentId, bool likeValue);
 

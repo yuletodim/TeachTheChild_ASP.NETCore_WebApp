@@ -4,7 +4,7 @@
     {
         Letters = 1,
         Numbers = 2,
-        Englis = 3,
+        English = 3,
         Bulgarian = 4,
         Spanish = 5,
         Painting = 6,

@@ -8,6 +8,7 @@
 
         public const string JpgMimeType = "image/jpeg";
         public const string PngMimeType = "image/png";
+        public const string GifMimeType = "image/gif";
         public const string ImageType = "image/*";
         public const string Mp4MimeType = "video/mp4";
 
@@ -19,9 +20,9 @@
 
         public const int MaxPictureLength = 2 * 1024 * 1024;
         public const int DownloadsPageSize = 6;
-        public const int BooksPageSize = 9;
+        public const int BooksPageSize = 6;
         public const int ArticlesPageSize = 2;
-        public const int VideosPageSize = 10;
+        public const int VideosPageSize = 5;
 
         // Areas
         public const string AdminArea = "Admin";

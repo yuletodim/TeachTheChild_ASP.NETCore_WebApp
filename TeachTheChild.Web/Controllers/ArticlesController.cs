@@ -7,6 +7,7 @@
     using TeachTheChild.Data.Models;
     using TeachTheChild.Services.Global.Contracts;
     using TeachTheChild.Web.Infrastructure.Constants;
+    using TeachTheChild.Web.Models;
     using TeachTheChild.Web.Models.Articles;
 
     public class ArticlesController : BaseController
@@ -38,15 +39,34 @@
         public async Task<IActionResult> Details(int id)
             => this.View(await this.articlesService.GetByIdAsync(id));
 
-        public async Task<IActionResult> LikeArticleAjax(int id, bool likeArticle)
+        [HttpPost]
+        public async Task<IActionResult> LikeArticleAjax([FromBody]LikeFormBindingModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { success = false });
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
-            var result = await this.articlesService.AddLikeAsync(userId, id, likeArticle);
-            var likes = await this.articlesService.GetLikesByIdAsync(id);
-            var dislikes = await this.articlesService.GetDislikesByIdAsync(id);
+            var result = await this.articlesService.AddLikeAsync(userId, model.Id, model.IsLike);
+            var likes = await this.articlesService.GetLikesByIdAsync(model.Id);
+            var dislikes = await this.articlesService.GetDislikesByIdAsync(model.Id);
 
             return this.Json(new { success = result, likes = likes, dislikes = dislikes });
+        }
+
+        public async Task<IActionResult> AddCommentAjax(CommentFormBindingModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { success = false });
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+            var result = await this.articlesService.AddCommentAsync(userId, model.Id, model.Content, model.CommentId);
+
+            return this.Json(new { success = result });
         }
     }
 }

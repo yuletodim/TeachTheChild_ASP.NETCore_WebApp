@@ -23,13 +23,13 @@
                         @if (item.Text == Model.Type)
                         {
                             <li class="line-list">
-                                <a href="/downloads?page=@Model.CurrentPage&type=@item.Text.ToString()" class="btn download-active">@item.Text.ToString()</a>
+                                <a href="/downloads?type=@item.Text.ToString()" class="btn download-active">@item.Text.ToString()</a>
                             </li>
                         }
                         else
                         {
                             <li class="line-list">
-                                <a href="/downloads?page=@Model.CurrentPage&type=@item.Text.ToString()" class="btn btn-primary">@item.Text.ToString()</a>
+                                <a href="/downloads?type=@item.Text.ToString()" class="btn btn-primary">@item.Text.ToString()</a>
                             </li>
                         }
 

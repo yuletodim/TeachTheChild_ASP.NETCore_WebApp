@@ -94,7 +94,8 @@
             }
 
             if (!(model.File.ContentType == WebConstants.JpgMimeType 
-                || model.File.ContentType == WebConstants.PngMimeType))
+                || model.File.ContentType == WebConstants.PngMimeType
+                || model.File.ContentType == WebConstants.GifMimeType))
             {
                 TempData.AddErrorMessage(WebConstants.NotSupportedFile);
                 return this.View(model);
