@@ -21,5 +21,6 @@ namespace TeachTheChild.Web
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+        // Tet git cmd client
     }
 }
